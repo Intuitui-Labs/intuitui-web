@@ -12,6 +12,22 @@ export const SITE_KEYWORDS = [
   'workflow design',
 ];
 
+export const BRAND_MARK = ';p';
+export const BRAND_TAGLINE = 'Brevity, Clarity, Levity';
+export const BRAND_EMOJI_TAGLINE = '⚡ · 💡 · 😜';
+
+/** Public destinations used across the site. Keep URL changes in one place. */
+export const PUBLIC_URLS = {
+  gurudevi: 'https://gurudevi.edlove.org',
+  edlove: 'https://edlove.org',
+  neevsk: 'https://neevsk.edlove.org',
+  neevskLinkedIn: 'https://www.linkedin.com/in/neevsk',
+} as const;
+
+export const SOCIAL_LINKS: Array<{ label: string; href: string }> = [
+  // Add approved profiles here when they are confirmed.
+];
+
 export const ORGANIZATION = {
   name: SITE_NAME,
   url: SITE_URL,

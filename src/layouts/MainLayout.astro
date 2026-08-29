@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import StructuredData from '../components/StructuredData.astro';
-import SystemsGrid from '../components/SystemsGrid.astro';
 import {
   defaultOgImage,
   ORGANIZATION,
@@ -10,6 +9,10 @@ import {
   SITE_TITLE,
   SITE_URL,
   SITE_KEYWORDS,
+  BRAND_MARK,
+  BRAND_TAGLINE,
+  BRAND_EMOJI_TAGLINE,
+  SOCIAL_LINKS,
 } from '../lib/site';
 
 interface Props {
@@ -174,37 +177,49 @@ const _currentBackground = themes[theme] || themes.default;
 		<!-- Systems Grid Overlay -->
 		<div class="fixed inset-0 -z-10 systems-grid pointer-events-none opacity-40"></div>
 
-		<nav class="fixed top-0 left-0 right-0 z-50 border-b border-black/5 bg-white/70 backdrop-blur-md">
-			<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-				<a href="/" class="group flex items-center gap-3">
-					<div class="w-2 h-2 bg-linear-to-br from-brand-sky to-brand-leaf rounded-full group-hover:scale-125 transition-transform"></div>
-					<span class="font-mono font-bold tracking-tighter text-lg">intuitui.labs</span>
+		<nav class="fixed top-0 left-0 right-0 z-50 border-b border-black/5 bg-white/85 backdrop-blur-md" aria-label="Primary navigation">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 min-h-16 flex items-center justify-between gap-4">
+				<a href="/" class="group flex items-center gap-3" aria-label="Intuitui Labs home">
+					<span class="brand-mark group-hover:rotate-[-8deg] transition-transform">{BRAND_MARK}</span>
+					<span class="font-mono font-bold tracking-tighter text-lg">intuitui labs</span>
 				</a>
-				<div class="flex items-center gap-8 text-sm font-medium">
+				<details class="relative md:hidden">
+					<summary class="list-none cursor-pointer rounded-full border border-black/10 px-3 py-2 text-xs font-mono uppercase tracking-[0.12em]">Menu</summary>
+					<div class="absolute right-0 top-12 w-44 rounded-2xl border border-black/10 bg-brand-background p-2 shadow-xl">
+						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/about">About</a>
+						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/about/team">Team</a>
+						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/projects">Projects</a>
+						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/studio">Studio</a>
+					</div>
+				</details>
+				<div class="hidden md:flex items-center gap-8 text-sm font-medium">
 					<a href="/about" class="hover:text-brand-accent transition-colors">About</a>
+					<a href="/about/team" class="hover:text-brand-accent transition-colors">Team</a>
 					<a href="/projects" class="hover:text-brand-accent transition-colors">Projects</a>
 					<a href="/studio" class="hover:text-brand-accent transition-colors">Studio</a>
 				</div>
 			</div>
 		</nav>
 
-		<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+		<main class="pt-28 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 max-w-7xl mx-auto">
 			<slot />
 		</main>
 
-		<footer class="border-t border-black/5 py-12 px-6">
-			<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+		<footer class="border-t border-black/5 py-10 sm:py-12 px-4 sm:px-6">
+			<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
 				<div class="space-y-4">
 					<div class="flex items-center gap-3">
 						<div class="w-1.5 h-1.5 bg-brand-accent rounded-full"></div>
 						<span class="font-mono font-bold tracking-tighter uppercase text-xs opacity-50">Studio Context</span>
 					</div>
 					<p class="text-sm text-brand-secondary max-w-xs">
-						Transforming Sri Lankan workflows through systems intelligence and humane technology.
+						{BRAND_TAGLINE}. A philosophy-led studio for making complex systems more humane.
+						<span class="mt-3 block font-mono text-xs tracking-[0.16em] opacity-70" aria-label="Brevity, clarity, levity in emoji">{BRAND_EMOJI_TAGLINE}</span>
 					</p>
 				</div>
 				<div></div>
-				<div class="text-right flex flex-col justify-end">
+				<div class="md:text-right flex flex-col justify-end">
+					{SOCIAL_LINKS.length > 0 && <nav class="flex md:justify-end gap-4 mb-5 text-xs font-mono" aria-label="Social links">{SOCIAL_LINKS.map((link) => <a class="hover:text-brand-accent underline underline-offset-4" href={link.href} target="_blank" rel="noreferrer">{link.label}</a>)}</nav>}
 					<p class="mono-label">Intuitui Labs © 2026</p>
 					<p class="text-[10px] opacity-30 mt-1">Neev Foundation Subsidiary</p>
 				</div>

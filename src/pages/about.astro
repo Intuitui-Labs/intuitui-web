@@ -3,91 +3,46 @@ import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout title="About | Intuitui Labs" theme="about">
-	<div class="max-w-4xl space-y-24">
-		<section class="space-y-8">
-			<p class="mono-label">Strategic Identity</p>
-			<h1 class="text-5xl md:text-7xl font-bold tracking-tighter">Vision & Mission</h1>
-			<p class="text-2xl text-brand-secondary font-light leading-snug">
-				A Sri Lanka where human systems are clear, dignified, efficient, and supported by humane technology.
-			</p>
-		</section>
+	<div class="max-w-5xl space-y-28 sm:space-y-36">
+		<header class="max-w-4xl space-y-8">
+			<p class="mono-label">About Intuitui · ;p</p>
+			<h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.9]">Serious about systems. Light about ourselves.</h1>
+			<p class="max-w-3xl text-2xl text-brand-secondary font-light leading-snug">We are a philosophy-led studio for seeing, understanding, and shaping complex human systems.</p>
+		</header>
 
-		<section class="grid grid-cols-1 md:grid-cols-2 gap-16">
-			<div class="space-y-6">
-				<h2 class="mono-label !opacity-100">Our Nature</h2>
-				<p class="text-brand-secondary">
-					Intuitui Labs is structured as a hybrid research–innovation studio. We combine systems research, foresight, sensing, and practical intervention design to solve real-world bottlenecks.
-				</p>
-			</div>
-			<div class="space-y-6">
-				<h2 class="mono-label !opacity-100">Positioning</h2>
-				<p class="text-brand-secondary">
-					We integrate philosophy and systems thinking with field reality and practical tech. This depth allows us to navigate the gaps between cultural intuition and technical execution.
-				</p>
+		<section class="grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr] gap-8 md:gap-20 border-t border-black/10 pt-7" aria-labelledby="why-heading">
+			<h2 id="why-heading" class="text-sm font-mono uppercase tracking-[0.16em]">Why Intuitui</h2>
+			<div class="space-y-6 text-xl text-brand-secondary leading-relaxed">
+				<p>Some ideas arrive too early for a category. Some systems are too alive to be understood from a distance. We stay with them long enough to find a truer shape.</p>
+				<p>Philosophy is first-class here. Sensemaking is more than traditional research: it is worldview, cultural interpretation, pattern recognition, conversation, reflection, and making.</p>
 			</div>
 		</section>
 
-		<section class="space-y-12">
-			<div class="flex items-end justify-between border-b border-black/5 pb-4">
-				<h2 class="text-sm font-mono uppercase tracking-[0.2em]">Functional Units</h2>
-				<span class="text-[10px] opacity-30 font-mono">02 // STRUCTURE</span>
-			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/5 border border-black/5">
+		<section class="space-y-10" aria-labelledby="method-heading">
+			<div class="flex items-end justify-between border-b border-black/10 pb-4"><h2 id="method-heading" class="text-2xl font-bold tracking-tight">The way we move</h2><span class="text-xs font-mono text-brand-secondary/60">not a pipeline</span></div>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-black/10 border border-black/10">
 				{[
-					{ title: "Systems & Insights", desc: "Research, sensemaking, and opportunity mapping.", color: "group-hover:text-brand-sky" },
-					{ title: "Design & Transformation", desc: "Intervention design and systems architecture.", color: "group-hover:text-brand-leaf" },
-					{ title: "Applied Technology", desc: "AI tools, automation, and micro-app development.", color: "group-hover:text-brand-primary" },
-					{ title: "Communication & Culture", desc: "Storytelling, diagrams, and clarity artifacts.", color: "group-hover:text-brand-secondary" }
-				].map(unit => (
-					<div class="bg-brand-background p-10 space-y-4 hover:bg-white transition-colors group">
-						<h3 class={`text-xl font-bold transition-colors ${unit.color}`}>{unit.title}</h3>
-						<p class="text-sm text-brand-secondary">{unit.desc}</p>
-					</div>
+					{ title: 'See', body: 'Attend to what is actually happening.' },
+					{ title: 'Make sense', body: 'Find relationships without flattening them.' },
+					{ title: 'Give form', body: 'Build the tool, practice, or idea.' },
+					{ title: 'Learn', body: 'Let reality answer back.' },
+					{ title: 'Continue', body: 'Keep the work alive and revisable.' },
+				].map((step, index) => (
+					<div class="bg-brand-background p-6 sm:p-7 space-y-8 min-h-44"><span class="text-xs font-mono text-brand-secondary/60">0{index + 1}</span><div class="space-y-2"><h3 class="text-xl font-bold">{step.title}</h3><p class="text-sm text-brand-secondary">{step.body}</p></div></div>
 				))}
 			</div>
 		</section>
 
-		<section class="space-y-12">
-			<div class="flex items-end justify-between border-b border-black/5 pb-4">
-				<h2 class="text-sm font-mono uppercase tracking-[0.2em]">Leadership</h2>
-				<span class="text-[10px] opacity-30 font-mono">03 // FOUNDER</span>
-			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
-				<div class="space-y-6">
-					<h3 class="text-3xl font-bold tracking-tight">Neev</h3>
-					<p class="mono-label !opacity-100 text-brand-secondary">Founder & Systems Lead</p>
-					<div class="space-y-4 text-brand-secondary leading-relaxed">
-						<p>
-							With a background in systems intelligence and research, Neev established Intuitui Labs to bridge the gap between abstract innovation and human reality.
-						</p>
-						<p>
-							His work focuses on designing "humane" technology—systems that prioritize dignity, clarity, and sustainable growth for Sri Lankan communities and enterprises.
-						</p>
-					</div>
-				</div>
-				<div class="aspect-[4/5] bg-black/[0.03] border border-black/5 flex items-center justify-center relative overflow-hidden grayscale">
-					<div class="absolute inset-0 opacity-10 systems-grid"></div>
-					<div class="text-[10px] font-mono opacity-20 rotate-90">IMG_STUDIO_CORE_LEAD</div>
-				</div>
-			</div>
+		<section class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20" aria-labelledby="constellation-heading">
+			<div class="space-y-5"><p class="mono-label">The constellation</p><h2 id="constellation-heading" class="text-4xl sm:text-5xl font-bold tracking-tight">One philosophy. Many forms.</h2></div>
+			<div class="space-y-6 text-brand-secondary leading-relaxed"><p>Intuitui Labs is the common philosophical and systems-making core behind a growing set of work. EdLove is an educational transformation ecosystem. Gurudevi is its first public expression.</p><p>Future work may become a product, an atlas, a community, an inquiry, an operational system, or something we do not have a name for yet.</p><a class="inline-block text-sm font-medium underline decoration-black/20 underline-offset-4" href="/projects">See what is taking shape ↗</a></div>
 		</section>
 
-		<section class="bg-black text-white p-12 md:p-24 space-y-8">
-			<h2 class="text-3xl md:text-5xl font-bold tracking-tight">The Growth Model</h2>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12">
-				<div class="space-y-4 opacity-100 italic">
-					<span class="text-xs font-mono opacity-50">Phase 01</span>
-					<p class="text-lg">Studio Stage: Building symbolic capital and flagship micro-projects.</p>
-				</div>
-				<div class="space-y-4 opacity-50">
-					<span class="text-xs font-mono">Phase 02</span>
-					<p class="text-lg">Labs Stage: Expanding into a multi-unit ecosystem with partners.</p>
-				</div>
-				<div class="space-y-4 opacity-50">
-					<span class="text-xs font-mono">Phase 03</span>
-					<p class="text-lg">Institute/Group Stage: Holding structure for specialized sub-labs.</p>
-				</div>
-			</div>
+		<section class="bg-brand-primary text-white p-8 sm:p-12 md:p-20 space-y-8" aria-labelledby="tagline-heading">
+			<p class="brand-mark border-white/60 text-white">;p</p>
+			<h2 id="tagline-heading" class="max-w-2xl text-4xl sm:text-6xl font-bold tracking-tight text-white">Brevity, Clarity, Levity.</h2>
+			<p class="font-mono text-sm tracking-[0.16em] text-white/70" aria-label="Brevity, clarity, levity in emoji">⚡ · 💡 · 😜</p>
+			<p class="max-w-xl text-white/70 leading-relaxed">We try to say what matters, make complexity legible, and leave enough room for curiosity.</p>
 		</section>
 	</div>
 </MainLayout>

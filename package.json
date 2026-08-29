@@ -4,7 +4,9 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "dev": "pnpm exec astro dev",
+    "dev": "pnpm exec astro dev --host 127.0.0.1 --port 4321 --force",
+    "dev:stop": "pnpm exec astro dev stop",
+    "dev:status": "pnpm exec astro dev status",
     "build": "pnpm exec astro build",
     "preview": "pnpm exec astro preview",
     "astro": "pnpm exec astro",

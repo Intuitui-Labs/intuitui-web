@@ -24,6 +24,7 @@ This index acts as a reference for all specifications and lab documentation for 
 | Document | Description |
 |---|---|
 | [Core/intuitui-labs.md](Core/intuitui-labs.md) | Vision and concept guidelines for the Intuitui Labs project |
+| [Core/intuitui-brand-foundation.md](Core/intuitui-brand-foundation.md) | Brand essence, character, mark, tagline, voice, and decision filter |
 
 ---
 

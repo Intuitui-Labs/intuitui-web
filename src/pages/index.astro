@@ -1,75 +1,32 @@
 ---
-import SystemsGrid from '../components/SystemsGrid.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout title="Intuitui Labs | Systems Intelligence" theme="home">
-	<section class="space-y-24">
-		<!-- Hero Section -->
-		<div class="max-w-3xl space-y-8">
-			<p class="mono-label">Systems Intelligence Studio</p>
-			<h1 class="text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter">
-				Designing <br/> 
-				<span class="text-brand-sky">Systems</span> <br/>
-				That Breathe.
-			</h1>
-			<p class="text-xl md:text-2xl text-brand-secondary font-light max-w-2xl">
-				We transform Sri Lankan workflows through deep research, sensemaking, and humane technology.
-			</p>
-		</div>
-
-		<!-- Core Pillars -->
-		<div class="space-y-12">
-			<div class="flex items-end justify-between border-b border-black/5 pb-4">
-				<h2 class="text-sm font-mono uppercase tracking-[0.2em]">Operating Blueprint</h2>
-				<span class="text-[10px] opacity-30 font-mono">01 // PILLARS</span>
+	<section class="space-y-24 sm:space-y-32">
+		<header class="min-h-[calc(100svh-7rem)] flex flex-col justify-center max-w-4xl space-y-7 sm:space-y-9">
+			<p class="mono-label">A philosophy-led systems studio · ;p</p>
+			<h1 class="text-[3.75rem] sm:text-7xl md:text-8xl font-bold leading-[0.9] tracking-tighter">Making sense of <span class="text-brand-sky">complex life.</span></h1>
+			<p class="max-w-2xl text-xl sm:text-2xl text-brand-secondary font-light leading-snug">Intuitui Labs explores how people, institutions, knowledge, and technology can form more humane systems — then gives those ideas practical shape.</p>
+			<div class="flex flex-wrap gap-5 pt-2 text-sm font-medium">
+				<a class="underline decoration-black/20 underline-offset-4 hover:decoration-brand-accent" href="/projects">See the work ↗</a>
+				<a class="underline decoration-black/20 underline-offset-4 hover:decoration-brand-accent" href="/about">Read the philosophy ↗</a>
 			</div>
+			<p class="pt-6 text-xs font-mono text-brand-secondary/70">Brevity, Clarity, Levity. <span aria-hidden="true">⚡ · 💡 · 😜</span></p>
+		</header>
 
-			<SystemsGrid columns={3}>
-				<div class="space-y-4">
-					<h3 class="text-lg">Sensemaking</h3>
-					<p class="text-sm text-brand-secondary">Philosophy, ethics, and systems thinking to establish clarity and direction.</p>
-				</div>
-				<div class="space-y-4">
-					<h3 class="text-lg">Field Reality</h3>
-					<p class="text-sm text-brand-secondary">Deep ethnography and workflow mapping to understand contextual bottlenecks.</p>
-				</div>
-				<div class="space-y-4">
-					<h3 class="text-lg">Innovation</h3>
-					<p class="text-sm text-brand-secondary">Designing elegant interventions and applied AI tools that empower people.</p>
-				</div>
-			</SystemsGrid>
-		</div>
+		<section class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 border-t border-black/10 pt-8" aria-labelledby="practice-heading">
+			<div class="md:col-span-1"><h2 id="practice-heading" class="text-sm font-mono uppercase tracking-[0.2em]">The practice</h2></div>
+			<div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-8">
+				<div class="space-y-3"><p class="text-2xl font-bold">See</p><p class="text-sm text-brand-secondary">Attend to reality before deciding what it means.</p></div>
+				<div class="space-y-3"><p class="text-2xl font-bold">Make sense</p><p class="text-sm text-brand-secondary">Find patterns, relationships, and possibilities without flattening complexity.</p></div>
+				<div class="space-y-3"><p class="text-2xl font-bold">Give form</p><p class="text-sm text-brand-secondary">Turn understanding into tools, platforms, experiments, and care.</p></div>
+			</div>
+		</section>
 
-		<!-- Status / Mission -->
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-			<div class="aspect-square bg-black/[0.02] border border-black/5 flex items-center justify-center relative overflow-hidden">
-				<!-- Abstract System Diagram Representation -->
-				<div class="absolute inset-12 border border-black/10 rounded-full animate-pulse"></div>
-				<div class="absolute inset-24 border border-black/10 rounded-full"></div>
-				<div class="absolute inset-36 border border-black/10 rounded-full"></div>
-				<div class="w-1 h-1 bg-brand-accent rounded-full"></div>
-                <div class="absolute bottom-6 left-6 mono-label opacity-20 text-[8px]">CORE_LOGIC_01v</div>
-			</div>
-			<div class="space-y-8">
-				<h2 class="text-4xl font-bold tracking-tight">Cultivating Clarity in a Complex World.</h2>
-				<p class="text-brand-secondary leading-relaxed">
-					Intuitui Labs operates at the intersection of symbolic culture and material infrastructure. We don't just build apps; we design the systems that allow organizations and ecosystems to flourish with dignity.
-				</p>
-				<ul class="space-y-4">
-					{[
-						{ name: 'Education Systems', color: 'bg-brand-sky' },
-						{ name: 'SME Modernization', color: 'bg-brand-primary' },
-						{ name: 'Agriculture & Ecology', color: 'bg-brand-leaf' },
-						{ name: 'Knowledge Infrastructure', color: 'bg-brand-secondary' }
-					].map(item => (
-						<li class="flex items-center gap-4 text-sm font-mono group">
-							<span class={`w-2 h-px ${item.color} group-hover:w-4 transition-all opacity-40 group-hover:opacity-100`}></span>
-							{item.name}
-						</li>
-					))}
-				</ul>
-			</div>
-		</div>
+		<section class="grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-10 md:gap-24 items-start" aria-labelledby="gurudevi-heading">
+			<div class="space-y-4"><p class="mono-label">First expression</p><h2 id="gurudevi-heading" class="text-4xl sm:text-5xl font-bold tracking-tight">Gurudevi</h2></div>
+			<div class="space-y-6"><p class="text-xl text-brand-secondary leading-relaxed">An education ecology support system and sanctuary for teachers and learners, built as part of the EdLove constellation.</p><a class="text-sm font-medium underline decoration-black/20 underline-offset-4" href="https://gurudevi.edlove.org" target="_blank" rel="noreferrer">Visit Gurudevi ↗</a></div>
+		</section>
 	</section>
 </MainLayout>
