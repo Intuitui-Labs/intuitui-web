@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.2",
   "private": true,
-  "packageManager": "pnpm@10.34.5",
+  "packageManager": "pnpm@12.1.0",
   "scripts": {
     "dev": "pnpm exec astro dev --host 127.0.0.1 --port 4321 --force",
     "dev:stop": "pnpm exec astro dev stop",
