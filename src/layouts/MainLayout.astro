@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import StructuredData from '../components/StructuredData.astro';
 import {
@@ -21,6 +22,8 @@ interface Props {
   theme?: 'home' | 'about' | 'projects' | 'studio' | 'default';
   image?: string;
   noindex?: boolean;
+  publishedDate?: string;
+  updatedDate?: string;
   structuredData?: Record<string, any> | Array<Record<string, any>>;
 }
 
@@ -30,12 +33,16 @@ const {
   theme = 'default',
   image,
   noindex = false,
+  publishedDate,
+  updatedDate,
   structuredData = [],
 } = Astro.props;
 
 const canonical = Astro.url.href;
+const currentPath = Astro.url.pathname;
 const _ogImage = image ?? defaultOgImage(Astro.url.pathname);
 const _robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
+
 const _baseStructuredData = [
   {
     '@context': 'https://schema.org',
@@ -55,6 +62,9 @@ const _baseStructuredData = [
     name: title,
     description,
     url: canonical,
+    ...(publishedDate ? { datePublished: publishedDate } : {}),
+    ...(updatedDate ? { dateModified: updatedDate } : {}),
+    inLanguage: 'en',
     isPartOf: {
       '@type': 'WebSite',
       name: SITE_NAME,
@@ -65,88 +75,73 @@ const _baseStructuredData = [
   .concat(Array.isArray(structuredData) ? structuredData : [structuredData])
   .filter(Boolean);
 
-// Theme-specific background configurations with parallax weights
+// Theme-specific subtle background zones
 const themes = {
   home: [
     {
-      color: 'bg-brand-sky/5',
+      color: 'bg-sky-500/5',
       shape: 'w-[70%] h-[80%] -top-[20%] -left-[10%] -rotate-12',
-      parallax: 0.1,
+      parallax: 0.08,
     },
     {
-      color: 'bg-brand-leaf/5',
+      color: 'bg-emerald-500/5',
       shape: 'w-[60%] h-[70%] -bottom-[20%] -right-[10%] rotate-6',
-      parallax: -0.15,
-    },
-    {
-      color: 'bg-brand-sky/3',
-      shape: 'w-[40%] h-[50%] top-1/4 left-1/2 -rotate-45',
-      parallax: 0.05,
+      parallax: -0.1,
     },
   ],
   about: [
     {
-      color: 'bg-brand-leaf/3',
+      color: 'bg-emerald-500/4',
       shape: 'w-[100%] h-[40%] -top-[10%] left-0 rotate-2',
-      parallax: 0.2,
+      parallax: 0.12,
     },
     {
-      color: 'bg-brand-primary/2',
+      color: 'bg-slate-500/3',
       shape: 'w-[50%] h-[100%] top-0 -left-[10%] -rotate-6',
-      parallax: -0.1,
-    },
-    {
-      color: 'bg-brand-leaf/5',
-      shape: 'w-[30%] h-[30%] bottom-20 right-20 rotate-45',
-      parallax: 0.3,
+      parallax: -0.06,
     },
   ],
   projects: [
     {
-      color: 'bg-brand-sky/10',
+      color: 'bg-sky-500/6',
       shape: 'w-[120%] h-[30%] top-[40%] -left-[10%] rotate-12',
-      parallax: 0.15,
-    },
-    {
-      color: 'bg-brand-primary/5',
-      shape: 'w-[40%] h-[80%] -top-[10%] right-[10%] -rotate-12',
-      parallax: -0.05,
+      parallax: 0.1,
     },
   ],
   studio: [
     {
-      color: 'bg-brand-primary/5',
-      shape: 'w-[100%] h-[1px] top-1/4 left-0 rotate-1',
-      parallax: 0.4,
-    },
-    {
-      color: 'bg-brand-primary/5',
-      shape: 'w-[100%] h-[1px] top-2/3 left-0 -rotate-1',
-      parallax: 0.6,
-    },
-    {
-      color: 'bg-brand-sky/5',
+      color: 'bg-slate-500/4',
       shape: 'w-[30%] h-[60%] top-0 right-0 -rotate-12',
-      parallax: 0.2,
+      parallax: 0.12,
     },
   ],
   default: [],
 };
 
 const _currentBackground = themes[theme] || themes.default;
+
+const navItems = [
+  { href: '/about', label: 'About' },
+  { href: '/about/team', label: 'Team' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/studio', label: 'Studio' },
+  ...(import.meta.env.DEV ? [{ href: '/a11y', label: 'A11y (Dev)', badge: 'DEV' }] : []),
+];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="robots" content={_robotsContent} />
 		<meta name="keywords" content={SITE_KEYWORDS.join(', ')} />
+		{publishedDate && <meta property="article:published_time" content={publishedDate} />}
+		{updatedDate && <meta property="article:modified_time" content={updatedDate} />}
 		<link rel="canonical" href={canonical} />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content={SITE_NAME} />
@@ -160,12 +155,18 @@ const _currentBackground = themes[theme] || themes.default;
 		<meta name="twitter:image" content={_ogImage} />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 		<StructuredData data={_baseStructuredData} />
+		<ClientRouter />
 	</head>
-	<body class="min-h-screen relative overflow-x-hidden selection:bg-brand-primary selection:text-white">
-		<!-- Dynamic Background Zones -->
-		<div class="fixed inset-0 -z-20 pointer-events-none" id="bg-container">
+	<body class="min-h-screen relative overflow-x-hidden selection:bg-brand-primary selection:text-white bg-brand-background text-brand-primary">
+		<!-- WCAG 2.2 AAA Skip Link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content <span aria-hidden="true">↓</span>
+		</a>
+
+		<!-- Dynamic Background Ambient Zones -->
+		<div class="fixed inset-0 -z-20 pointer-events-none" id="bg-container" aria-hidden="true">
 			{_currentBackground.map((zone: any) => (
 				<div 
 					class={`absolute transform-gpu transition-transform duration-700 ease-out ${zone.color} ${zone.shape}`}
@@ -175,66 +176,266 @@ const _currentBackground = themes[theme] || themes.default;
 		</div>
 
 		<!-- Systems Grid Overlay -->
-		<div class="fixed inset-0 -z-10 systems-grid pointer-events-none opacity-40"></div>
+		<div class="fixed inset-0 -z-10 systems-grid pointer-events-none opacity-60" aria-hidden="true"></div>
 
-		<nav class="fixed top-0 left-0 right-0 z-50 border-b border-black/5 bg-white/85 backdrop-blur-md" aria-label="Primary navigation">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 min-h-16 flex items-center justify-between gap-4">
-				<a href="/" class="group flex items-center gap-3" aria-label="Intuitui Labs home">
-					<span class="brand-mark group-hover:rotate-[-8deg] transition-transform">{BRAND_MARK}</span>
-					<span class="font-mono font-bold tracking-tighter text-lg">intuitui labs</span>
-				</a>
-				<details class="relative md:hidden">
-					<summary class="list-none cursor-pointer rounded-full border border-black/10 px-3 py-2 text-xs font-mono uppercase tracking-[0.12em]">Menu</summary>
-					<div class="absolute right-0 top-12 w-44 rounded-2xl border border-black/10 bg-brand-background p-2 shadow-xl">
-						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/about">About</a>
-						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/about/team">Team</a>
-						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/projects">Projects</a>
-						<a class="block rounded-xl px-3 py-3 text-sm hover:bg-black/5" href="/studio">Studio</a>
+		<!-- Primary Navigation Bar -->
+		<header class="fixed top-0 left-0 right-0 z-50 border-b border-brand-border bg-brand-surface/90 backdrop-blur-md transition-all" role="banner">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-4">
+				<a href="/" class="group flex items-center gap-3.5 touch-target" aria-label="Intuitui Labs home">
+					<span class="brand-mark group-hover:rotate-[-8deg] group-hover:scale-105 transition-all shadow-xs">{BRAND_MARK}</span>
+					<div class="flex flex-col text-left">
+						<span class="font-extrabold tracking-tight text-lg text-brand-primary leading-tight">intuitui labs</span>
+						<span class="hidden sm:inline-block mono-label text-xs tracking-[0.14em] text-brand-muted/80">
+							Brevity · Clarity · Levity
+						</span>
 					</div>
-				</details>
-				<div class="hidden md:flex items-center gap-8 text-sm font-medium">
-					<a href="/about" class="hover:text-brand-accent transition-colors">About</a>
-					<a href="/about/team" class="hover:text-brand-accent transition-colors">Team</a>
-					<a href="/projects" class="hover:text-brand-accent transition-colors">Projects</a>
-					<a href="/studio" class="hover:text-brand-accent transition-colors">Studio</a>
+				</a>
+
+				<!-- Desktop Navigation Links -->
+				<nav class="hidden md:flex items-center gap-1 text-sm font-medium" aria-label="Primary navigation">
+					{navItems.map((item) => {
+						const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href) && item.href !== '/about' && item.href !== '/projects');
+						const isExact = currentPath === item.href;
+						return (
+							<a
+								href={item.href}
+								class={`px-4 py-2 rounded-md transition-colors touch-target ${
+									isExact
+										? 'bg-brand-primary text-white font-semibold shadow-sm'
+										: 'text-brand-secondary hover:text-brand-primary hover:bg-black/5'
+								}`}
+								aria-current={isExact ? 'page' : undefined}
+							>
+								<span>{item.label}</span>
+								{item.badge && (
+									<span class={`ml-1.5 px-2 py-0.5 text-xs font-mono font-bold rounded ${
+										isExact ? 'bg-sky-400 text-brand-primary' : 'bg-sky-100 text-sky-800'
+									}`}>
+										{item.badge}
+									</span>
+								)}
+							</a>
+						);
+					})}
+				</nav>
+
+				<!-- Mobile Navigation Menu Toggle -->
+				<button
+					type="button"
+					id="mobile-menu-btn"
+					class="md:hidden touch-target px-4 py-2 rounded-lg border-2 border-brand-border bg-brand-surface text-brand-primary font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-slate-100 transition-all flex items-center gap-2"
+					aria-expanded="false"
+					aria-controls="mobile-drawer"
+					aria-label="Open navigation menu"
+				>
+					<span id="mobile-menu-icon" class="w-2.5 h-2.5 rounded-full bg-brand-primary transition-transform" aria-hidden="true"></span>
+					<span id="mobile-menu-text">Menu</span>
+				</button>
+			</div>
+
+			<!-- Mobile Navigation Drawer Overlay (Robust Full-bleed Scrollable Surface) -->
+			<div
+				id="mobile-drawer"
+				class="hidden md:hidden fixed inset-x-0 top-[4.5rem] h-[calc(100dvh-4.5rem)] bg-brand-background/98 backdrop-blur-2xl border-b border-brand-border p-6 pb-[max(2rem,env(safe-area-inset-bottom))] shadow-2xl flex flex-col justify-between overflow-y-auto overscroll-contain z-50"
+				role="dialog"
+				aria-modal="true"
+				aria-label="Mobile Navigation"
+			>
+				<nav class="space-y-3" aria-label="Mobile primary navigation">
+					<p class="mono-label mb-3 text-xs text-brand-muted">Constellation Navigation</p>
+					{navItems.map((item) => {
+						const isExact = currentPath === item.href;
+						return (
+							<a
+								href={item.href}
+								class={`mobile-nav-link block px-5 py-4 rounded-xl text-base font-bold transition-all touch-target tactile-press justify-start ${
+									isExact
+										? 'bg-brand-primary text-white shadow-md'
+										: 'text-brand-secondary hover:text-brand-primary hover:bg-black/5 border border-brand-border/60 bg-brand-surface'
+								}`}
+								aria-current={isExact ? 'page' : undefined}
+							>
+								<div class="flex items-center justify-between w-full">
+									<span>{item.label}</span>
+									{item.badge && (
+										<span class="px-2 py-0.5 text-xs font-mono font-bold rounded bg-sky-100 text-sky-800">
+											{item.badge}
+										</span>
+									)}
+								</div>
+							</a>
+						);
+					})}
+				</nav>
+
+				<div class="pt-6 border-t-2 border-brand-border space-y-3 mt-8 bg-brand-surface/60 p-4 rounded-xl border border-brand-border">
+					<div class="flex items-center gap-2">
+						<span class="brand-mark w-7 h-7 text-xs rounded-md" aria-hidden="true">{BRAND_MARK}</span>
+						<p class="font-mono text-xs font-black uppercase tracking-wider text-brand-primary">Intuitui Labs</p>
+					</div>
+					<div class="space-y-1">
+						<p class="text-xs font-bold text-brand-primary uppercase tracking-wide">Brand Tagline</p>
+						<p class="text-sm font-black text-slate-900 tracking-tight">{BRAND_TAGLINE}</p>
+						<p class="text-xs font-mono font-semibold text-brand-muted tracking-[0.14em]" aria-label="Brevity, clarity, levity in emoji">{BRAND_EMOJI_TAGLINE}</p>
+					</div>
 				</div>
 			</div>
-		</nav>
+		</header>
 
-		<main class="pt-28 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 max-w-7xl mx-auto">
+		<!-- Main Landmark -->
+		<main id="main-content" tabindex="-1" class="pt-28 sm:pt-36 pb-20 sm:pb-28 px-4 sm:px-6 max-w-7xl mx-auto focus:outline-none">
 			<slot />
 		</main>
 
-		<footer class="border-t border-black/5 py-10 sm:py-12 px-4 sm:px-6">
+		<!-- Footer Landmark -->
+		<footer class="border-t border-brand-border py-12 sm:py-16 px-4 sm:px-6 bg-brand-surface/70" role="contentinfo">
 			<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
 				<div class="space-y-4">
 					<div class="flex items-center gap-3">
-						<div class="w-1.5 h-1.5 bg-brand-accent rounded-full"></div>
-						<span class="font-mono font-bold tracking-tighter uppercase text-xs opacity-50">Studio Context</span>
+						<span class="brand-mark w-7 h-7 text-xs rounded-md" aria-hidden="true">{BRAND_MARK}</span>
+						<span class="mono-label">Studio Signature</span>
 					</div>
-					<p class="text-sm text-brand-secondary max-w-xs">
-						{BRAND_TAGLINE}. A philosophy-led studio for making complex systems more humane.
-						<span class="mt-3 block font-mono text-xs tracking-[0.16em] opacity-70" aria-label="Brevity, clarity, levity in emoji">{BRAND_EMOJI_TAGLINE}</span>
-					</p>
+					<div class="space-y-2">
+						<p class="text-lg font-black text-brand-primary tracking-tight">
+							{BRAND_TAGLINE}.
+						</p>
+						<p class="text-sm text-brand-secondary max-w-sm leading-relaxed">
+							A philosophy-led studio for seeing, understanding, and making complex systems more humane.
+						</p>
+						<span class="inline-block font-mono text-xs font-bold text-brand-muted tracking-[0.18em] pt-1" aria-label="Brevity, clarity, levity in emoji">
+							{BRAND_EMOJI_TAGLINE}
+						</span>
+					</div>
 				</div>
-				<div></div>
-				<div class="md:text-right flex flex-col justify-end">
-					{SOCIAL_LINKS.length > 0 && <nav class="flex md:justify-end gap-4 mb-5 text-xs font-mono" aria-label="Social links">{SOCIAL_LINKS.map((link) => <a class="hover:text-brand-accent underline underline-offset-4" href={link.href} target="_blank" rel="noreferrer">{link.label}</a>)}</nav>}
-					<p class="mono-label">Intuitui Labs © 2026</p>
-					<p class="text-[10px] opacity-30 mt-1">Neev Foundation Subsidiary</p>
+
+				<div class="space-y-3">
+					<p class="mono-label">Navigation</p>
+					<ul class="space-y-2 text-sm font-medium text-slate-800">
+						<li><a href="/about" class="hover:text-sky-700 transition-colors">About the Studio</a></li>
+						<li><a href="/about/team" class="hover:text-sky-700 transition-colors">Team & Constellation</a></li>
+						<li><a href="/projects" class="hover:text-sky-700 transition-colors">Tangible Systems</a></li>
+						<li><a href="/studio" class="hover:text-sky-700 transition-colors">Studio & Operating Model</a></li>
+					</ul>
+					{import.meta.env.DEV && (
+						<div class="pt-2 border-t border-slate-200">
+							<a href="/a11y" class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-sky-800 hover:underline">
+								<span>⚡ A11y & Spatial Inspector (Dev)</span>
+							</a>
+						</div>
+					)}
+				</div>
+
+				<div class="md:text-right flex flex-col justify-between">
+					{SOCIAL_LINKS.length > 0 ? (
+						<nav class="flex md:justify-end gap-4 mb-4 text-xs font-mono" aria-label="Social links">
+							{SOCIAL_LINKS.map((link) => (
+								<a class="text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target" href={link.href} target="_blank" rel="noreferrer">
+									{link.label}
+								</a>
+							))}
+						</nav>
+					) : (
+						<div class="mb-4">
+							<p class="text-xs text-brand-muted font-mono">Neev Foundation Subsidiary</p>
+						</div>
+					)}
+					<div>
+						<p class="mono-label">Intuitui Labs © 2026</p>
+						<p class="text-xs text-brand-muted mt-1 font-mono">Colombo · Sri Lanka</p>
+					</div>
 				</div>
 			</div>
 		</footer>
 
+		<!-- Client-Side Scripts for Scroll Tracking, Mobile Navigation & Ambient Illumination -->
 		<script>
-			// Track scroll position and update CSS variable
-			const updateScroll = () => {
-				const scrollY = window.scrollY;
-				document.body.style.setProperty('--scroll-y', scrollY.toString());
-			};
+			function initInteractiveFeatures() {
+				// Always release scroll-lock on initialization / page-transitions
+				document.body.style.overflow = '';
 
-			window.addEventListener('scroll', updateScroll, { passive: true });
-			updateScroll(); // Initial call
+				// Track scroll position for subtle parallax
+				const updateScroll = () => {
+					const scrollY = window.scrollY;
+					document.body.style.setProperty('--scroll-y', scrollY.toString());
+				};
+				window.addEventListener('scroll', updateScroll, { passive: true });
+				updateScroll();
+
+				// Ambient Card Lighting Tracker (Physics-based illumination)
+				const cards = document.querySelectorAll('.systems-card');
+				cards.forEach((card) => {
+					card.addEventListener('pointermove', (e: Event) => {
+						const mouseEvent = e as MouseEvent;
+						const rect = (card as HTMLElement).getBoundingClientRect();
+						const x = Math.round(((mouseEvent.clientX - rect.left) / rect.width) * 100);
+						const y = Math.round(((mouseEvent.clientY - rect.top) / rect.height) * 100);
+						(card as HTMLElement).style.setProperty('--mouse-x', `${x}%`);
+						(card as HTMLElement).style.setProperty('--mouse-y', `${y}%`);
+					});
+				});
+
+				// Mobile Menu Drawer Controller with Safe Navigation Cleanup
+				const menuBtn = document.getElementById('mobile-menu-btn');
+				const menuText = document.getElementById('mobile-menu-text');
+				const menuIcon = document.getElementById('mobile-menu-icon');
+				const drawer = document.getElementById('mobile-drawer');
+
+				if (menuBtn && drawer && menuText) {
+					const toggleMenu = (open?: boolean) => {
+						const isCurrentlyOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+						const shouldOpen = open !== undefined ? open : !isCurrentlyOpen;
+
+						menuBtn.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+						menuBtn.setAttribute('aria-label', shouldOpen ? 'Close navigation menu' : 'Open navigation menu');
+						menuText.textContent = shouldOpen ? 'Close' : 'Menu';
+
+						if (menuIcon) {
+							if (shouldOpen) {
+								menuIcon.classList.remove('bg-brand-primary');
+								menuIcon.classList.add('bg-rose-600', 'scale-125');
+							} else {
+								menuIcon.classList.add('bg-brand-primary');
+								menuIcon.classList.remove('bg-rose-600', 'scale-125');
+							}
+						}
+
+						if (shouldOpen) {
+							drawer.classList.remove('hidden');
+							document.body.style.overflow = 'hidden';
+						} else {
+							drawer.classList.add('hidden');
+							document.body.style.overflow = '';
+						}
+					};
+
+					menuBtn.onclick = () => toggleMenu();
+
+					// Close drawer when any nav link is tapped to prevent trapped scroll-locks
+					const mobileLinks = drawer.querySelectorAll('.mobile-nav-link');
+					mobileLinks.forEach((link) => {
+						link.addEventListener('click', () => {
+							toggleMenu(false);
+						});
+					});
+
+					// Close menu on Escape key press
+					window.addEventListener('keydown', (e) => {
+						if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') {
+							toggleMenu(false);
+							menuBtn.focus();
+						}
+					});
+				}
+			}
+
+			// Clean up scroll-lock before view transitions swap
+			document.addEventListener('astro:before-swap', () => {
+				document.body.style.overflow = '';
+			});
+
+			// Initialize on first paint and re-initialize across View Transitions
+			initInteractiveFeatures();
+			document.addEventListener('astro:page-load', initInteractiveFeatures);
 		</script>
 	</body>
 </html>

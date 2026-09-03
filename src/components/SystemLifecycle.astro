@@ -1,0 +1,126 @@
+---
+// Architecturally aligned System Lifecycle: Stage -> Pillar -> Unit
+const steps = [
+	{ 
+		id: 'stage-01',
+		stageNum: '01',
+		stageName: 'Seeing', 
+		title: 'Field Reality', 
+		pillar: 'Field Understanding',
+		unit: 'Systems & Insights Unit',
+		body: 'Observe ground truths, user workflows, and hidden friction before prescribing solutions.',
+		example: 'RN Terrain · SME Systems',
+		badgeBg: 'bg-sky-700 text-white',
+		accentColor: 'border-t-sky-700',
+	},
+	{ 
+		id: 'stage-02',
+		stageNum: '02',
+		stageName: 'Sensemaking', 
+		title: 'Structural Clarity', 
+		pillar: 'Sensemaking',
+		unit: 'Communication & Culture Studio',
+		body: 'Synthesize raw observations into clear models, diagrams, and guiding frameworks.',
+		example: 'Anavaratha',
+		badgeBg: 'bg-emerald-700 text-white',
+		accentColor: 'border-t-emerald-700',
+	},
+	{ 
+		id: 'stage-03',
+		stageNum: '03',
+		stageName: 'Incubating', 
+		title: 'Giving Form', 
+		pillar: 'Intervention Design',
+		unit: 'Design & Transformation Lab',
+		body: 'Prototype micro-apps, design sprints, and lightweight interventions.',
+		example: 'Divergent Club',
+		badgeBg: 'bg-amber-600 text-white',
+		accentColor: 'border-t-amber-600',
+	},
+	{ 
+		id: 'stage-04',
+		stageNum: '04',
+		stageName: 'Active', 
+		title: 'Enabling Tech', 
+		pillar: 'Enabling Technology',
+		unit: 'Applied Technology Division',
+		body: 'Deploy production systems, automation pipelines, and humane tools.',
+		example: 'Gurudevi',
+		badgeBg: 'bg-indigo-700 text-white',
+		accentColor: 'border-t-indigo-700',
+	},
+	{ 
+		id: 'stage-05',
+		stageNum: '05',
+		stageName: 'Flourishing', 
+		title: 'Humane Impact', 
+		pillar: 'Culture & Flourishing',
+		unit: 'Learning & Human Development',
+		body: 'Steward long-term institutional value, community learning, and dignity.',
+		example: 'EdLove Constellation',
+		badgeBg: 'bg-rose-700 text-white',
+		accentColor: 'border-t-rose-700',
+	},
+];
+---
+
+<div class="space-y-6" id="lifecycle-diagram">
+	<!-- Flow Architecture Layout with 100% Mathematical Center Alignment -->
+	<div class="relative">
+		<!-- Horizontal Connecting Conduit Spine (Passes through the exact center of all 5 nodes on desktop) -->
+		<div class="hidden lg:block absolute top-6 left-12 right-12 h-1 bg-slate-900 z-0" aria-hidden="true"></div>
+
+		<!-- 5-Column Aligned System Grid -->
+		<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 relative z-10">
+			{steps.map((step) => (
+				<div class="flex flex-col items-center">
+					<!-- Step Node Circle (100% centered horizontally above its own card) -->
+					<div class="flex flex-col items-center mb-2">
+						<div class="w-12 h-12 rounded-full border-3 border-slate-950 bg-white shadow-md flex items-center justify-center font-mono font-black text-base text-slate-950">
+							{step.stageNum}
+						</div>
+						<span class="font-mono text-xs font-black uppercase tracking-wider text-slate-950 mt-1.5 text-center">
+							{step.stageName}
+						</span>
+						<!-- Vertical Stem Conduit Connecting Node to Card -->
+						<div class="w-1 h-4 bg-slate-950 mt-1" aria-hidden="true"></div>
+					</div>
+
+					<!-- Card Body (Mathematically Centered Under Node) -->
+					<article
+						class={`w-full systems-card p-6 flex flex-col justify-between min-h-[22rem] bg-white border-t-6 ${step.accentColor}`}
+						aria-labelledby={`step-title-${step.id}`}
+					>
+						<div class="space-y-4">
+							<div class="flex items-center justify-between border-b-2 border-slate-900/10 pb-3">
+								<span class={`px-3 py-1 rounded-md font-mono text-xs font-extrabold uppercase tracking-wide ${step.badgeBg}`}>
+									Stage {step.stageNum}
+								</span>
+								<span class="w-2.5 h-2.5 rounded-full bg-slate-900" aria-hidden="true"></span>
+							</div>
+
+							<div class="space-y-2">
+								<h3 id={`step-title-${step.id}`} class="text-2xl font-black tracking-tight text-slate-950">
+									{step.title}
+								</h3>
+								<div class="text-xs sm:text-sm font-mono text-slate-900 space-y-1 bg-slate-100 p-2.5 rounded-lg border border-slate-300">
+									<p><span class="font-extrabold text-slate-700 uppercase tracking-wide">Pillar:</span> <strong class="text-slate-950">{step.pillar}</strong></p>
+									<p><span class="font-extrabold text-slate-700 uppercase tracking-wide">Unit:</span> <strong class="text-slate-950">{step.unit}</strong></p>
+								</div>
+							</div>
+
+							<p class="text-sm sm:text-base font-medium text-slate-800 leading-relaxed pt-1">
+								{step.body}
+							</p>
+						</div>
+
+						<div class="pt-4 border-t-2 border-slate-900/10 mt-4">
+							<p class="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider">Active Proof</p>
+							<p class="text-sm font-black text-slate-950 mt-0.5">{step.example}</p>
+						</div>
+					</article>
+				</div>
+			))}
+		</div>
+	</div>
+</div>
