@@ -33,3 +33,6 @@ This index acts as a reference for all specifications and lab documentation for 
 | Document | Description |
 |---|---|
 | [architecture/website.md](architecture/website.md) | Layout mapping, routing, and technical specs for the intuitui website |
+| [architecture/accessibility-gates.md](architecture/accessibility-gates.md) | Quantitative mathematical gates (WCAG 2.2 AAA, W3C APCA, 8px spatial rhythm) |
+| [architecture/human-quality-gate.md](architecture/human-quality-gate.md) | 7-point human judgment quality rubric and release sign-off protocol |
+| [architecture/vitest-v5-capabilities-sop.md](architecture/vitest-v5-capabilities-sop.md) | Vitest v5 & Vite 8 Capabilities, Test Architectures & Standard Operating Procedure (15 Capabilities) |
