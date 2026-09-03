@@ -3,9 +3,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
-      "@intuitui-labs/a11y-gate": ["../packages/a11y-gate/src/index.ts"],
-      "@intuitui-labs/a11y-gate/*": ["../packages/a11y-gate/src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [".astro/types.d.ts", "**/*"],

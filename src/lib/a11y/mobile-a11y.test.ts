@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
-import { runMobileAuditSuite } from '@intuitui-labs/a11y-gate';
+import { runMobileAuditSuite } from './index';
 
 // Load compiled production pages from dist/
 const distDir = path.resolve(process.cwd(), 'dist');
