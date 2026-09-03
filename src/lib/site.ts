@@ -41,3 +41,4 @@ export function absoluteUrl(pathname: string) {
 export function defaultOgImage(pathname = '/') {
   return absoluteUrl(`/og${pathname === '/' ? '' : pathname}.png`);
 }
+

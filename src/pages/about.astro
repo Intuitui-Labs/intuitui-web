@@ -1,48 +1,96 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import SystemLifecycle from '../components/SystemLifecycle.astro';
+import ProvenanceColophon from '../components/ProvenanceColophon.astro';
 ---
 
-<MainLayout title="About | Intuitui Labs" theme="about">
-	<div class="max-w-5xl space-y-28 sm:space-y-36">
-		<header class="max-w-4xl space-y-8">
-			<p class="mono-label">About Intuitui · ;p</p>
-			<h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.9]">Serious about systems. Light about ourselves.</h1>
-			<p class="max-w-3xl text-2xl text-brand-secondary font-light leading-snug">We are a philosophy-led studio for seeing, understanding, and shaping complex human systems.</p>
+<MainLayout title="About | Intuitui Labs" theme="about" publishedDate="2026-08-24T13:56:19+05:30" updatedDate="2026-08-29T17:53:12+05:30">
+	<div class="max-w-7xl mx-auto space-y-28 sm:space-y-36">
+		<!-- Header -->
+		<header class="max-w-4xl space-y-6 sm:space-y-8">
+			<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border-2 border-slate-900 bg-white w-fit shadow-xs">
+				<p class="font-mono text-sm font-bold text-slate-950 uppercase tracking-wider">About Intuitui</p>
+			</div>
+			<h1 class="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-[0.92] text-slate-950">
+				Serious about systems. Light about ourselves.
+			</h1>
+			<p class="measure-optimal text-2xl sm:text-3xl text-slate-800 font-medium leading-relaxed">
+				We are a philosophy-led studio for seeing, understanding, and shaping complex human systems.
+			</p>
 		</header>
 
-		<section class="grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr] gap-8 md:gap-20 border-t border-black/10 pt-7" aria-labelledby="why-heading">
-			<h2 id="why-heading" class="text-sm font-mono uppercase tracking-[0.16em]">Why Intuitui</h2>
-			<div class="space-y-6 text-xl text-brand-secondary leading-relaxed">
-				<p>Some ideas arrive too early for a category. Some systems are too alive to be understood from a distance. We stay with them long enough to find a truer shape.</p>
-				<p>Philosophy is first-class here. Sensemaking is more than traditional research: it is worldview, cultural interpretation, pattern recognition, conversation, reflection, and making.</p>
+		<!-- Why Intuitui -->
+		<section class="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-8 md:gap-16 border-t-2 border-slate-900 pt-8" aria-labelledby="why-heading">
+			<div class="space-y-2">
+				<p class="mono-label">Core Stance</p>
+				<h2 id="why-heading" class="text-3xl sm:text-4xl font-black text-slate-950">Why Intuitui</h2>
+			</div>
+			<div class="space-y-6 text-xl text-slate-800 font-medium leading-relaxed measure-optimal">
+				<p>
+					Some ideas arrive too early for an established industry category. Some human systems are too alive and intricate to be understood from a bureaucratic distance. We stay with them long enough to uncover their truer shape.
+				</p>
+				<p>
+					Philosophy is first-class here. Sensemaking is more than conventional market research: it is cultural interpretation, deep listening, pattern recognition, reflective inquiry, and concrete making.
+				</p>
 			</div>
 		</section>
 
-		<section class="space-y-10" aria-labelledby="method-heading">
-			<div class="flex items-end justify-between border-b border-black/10 pb-4"><h2 id="method-heading" class="text-2xl font-bold tracking-tight">The way we move</h2><span class="text-xs font-mono text-brand-secondary/60">not a pipeline</span></div>
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-black/10 border border-black/10">
-				{[
-					{ title: 'See', body: 'Attend to what is actually happening.' },
-					{ title: 'Make sense', body: 'Find relationships without flattening them.' },
-					{ title: 'Give form', body: 'Build the tool, practice, or idea.' },
-					{ title: 'Learn', body: 'Let reality answer back.' },
-					{ title: 'Continue', body: 'Keep the work alive and revisable.' },
-				].map((step, index) => (
-					<div class="bg-brand-background p-6 sm:p-7 space-y-8 min-h-44"><span class="text-xs font-mono text-brand-secondary/60">0{index + 1}</span><div class="space-y-2"><h3 class="text-xl font-bold">{step.title}</h3><p class="text-sm text-brand-secondary">{step.body}</p></div></div>
-				))}
+		<!-- Practice Diagram -->
+		<section class="space-y-8 border-t-2 border-slate-900 pt-8" aria-labelledby="operating-model-heading">
+			<div class="flex items-end justify-between">
+				<div class="space-y-2">
+					<p class="mono-label">Operating Model</p>
+					<h2 id="operating-model-heading" class="text-3xl sm:text-4xl font-black text-slate-950">
+						The Intuitui Method
+					</h2>
+				</div>
+				<span class="text-sm font-mono font-bold text-slate-700 hidden sm:inline">CYCLE // CONTINUOUS</span>
+			</div>
+			<SystemLifecycle />
+		</section>
+
+		<!-- Constellation Context -->
+		<section class="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-8 md:gap-16 border-t-2 border-slate-900 pt-8" aria-labelledby="constellation-heading">
+			<div class="space-y-2">
+				<p class="mono-label">Ecosystem Role</p>
+				<h2 id="constellation-heading" class="text-3xl sm:text-4xl font-black text-slate-950">The Constellation</h2>
+			</div>
+			<div class="space-y-6 text-xl text-slate-800 font-medium leading-relaxed measure-optimal">
+				<p>
+					Intuitui Labs serves as the systems intelligence and technical vanguard of a broader ecosystem. While we design, architect, and incubate initiatives, our public expressions—such as EdLove and Gurudevi—operate as community-anchored realities.
+				</p>
+				<div class="pt-2">
+					<a href="/projects" class="touch-target inline-flex items-center gap-2 font-mono text-base font-bold text-sky-800 hover:text-sky-950 underline underline-offset-4">
+						<span>Explore our tangible projects</span>
+						<span aria-hidden="true">→</span>
+					</a>
+				</div>
 			</div>
 		</section>
 
-		<section class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20" aria-labelledby="constellation-heading">
-			<div class="space-y-5"><p class="mono-label">The constellation</p><h2 id="constellation-heading" class="text-4xl sm:text-5xl font-bold tracking-tight">One philosophy. Many forms.</h2></div>
-			<div class="space-y-6 text-brand-secondary leading-relaxed"><p>Intuitui Labs is the common philosophical and systems-making core behind a growing set of work. EdLove is an educational transformation ecosystem. Gurudevi is its first public expression.</p><p>Future work may become a product, an atlas, a community, an inquiry, an operational system, or something we do not have a name for yet.</p><a class="inline-block text-sm font-medium underline decoration-black/20 underline-offset-4" href="/projects">See what is taking shape ↗</a></div>
+		<!-- Manifesto Card (Verified High Contrast) -->
+		<section class="systems-card bg-slate-950 text-white p-8 sm:p-14 md:p-20 space-y-8 shadow-xl" aria-labelledby="tagline-heading">
+			<span class="brand-mark brand-mark-light" aria-hidden="true">;p</span>
+			<h2 id="tagline-heading" class="max-w-2xl text-5xl sm:text-7xl font-black tracking-tight text-white">
+				Brevity, Clarity, Levity.
+			</h2>
+			<p class="font-mono text-base font-bold tracking-[0.16em] text-slate-300" aria-label="Brevity, clarity, levity in emoji">
+				⚡ · 💡 · 😜
+			</p>
+			<p class="measure-optimal text-xl sm:text-2xl text-slate-200 leading-relaxed font-normal">
+				We say what matters without bloated jargon, render complex relationships legible, and protect the playful levity that keeps human systems human.
+			</p>
 		</section>
 
-		<section class="bg-brand-primary text-white p-8 sm:p-12 md:p-20 space-y-8" aria-labelledby="tagline-heading">
-			<p class="brand-mark border-white/60 text-white">;p</p>
-			<h2 id="tagline-heading" class="max-w-2xl text-4xl sm:text-6xl font-bold tracking-tight text-white">Brevity, Clarity, Levity.</h2>
-			<p class="font-mono text-sm tracking-[0.16em] text-white/70" aria-label="Brevity, clarity, levity in emoji">⚡ · 💡 · 😜</p>
-			<p class="max-w-xl text-white/70 leading-relaxed">We try to say what matters, make complexity legible, and leave enough room for curiosity.</p>
-		</section>
+		<!-- Provenance & Editorial Colophon -->
+		<ProvenanceColophon
+			author="Intuitui Labs"
+			publishDate="2026-08-24T13:56:19+05:30"
+			updatedDate="2026-08-29T17:53:12+05:30"
+			cadence="perennial"
+			canonicalUrl="https://intuituilabs.edlove.org/about"
+			version="v1.2"
+			class="pt-8"
+		/>
 	</div>
 </MainLayout>

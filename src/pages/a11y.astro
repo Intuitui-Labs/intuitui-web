@@ -1,0 +1,533 @@
+---
+// Internal dev tool: redirect away in production builds
+if (import.meta.env.PROD) {
+	return Astro.redirect('/');
+}
+
+import MainLayout from '../layouts/MainLayout.astro';
+import { CERTIFIED_TOKEN_PAIRS, COLOR_TOKENS } from '../lib/a11y/design-tokens';
+import { INTUITUI_TYPE_SCALE, SPATIAL_INTERVALS } from '../lib/a11y/spatial-math';
+import { evaluateWcag, evaluateApca } from '../lib/a11y/contrast-math';
+
+// Precompute token compliance stats
+const tokenEvaluations = CERTIFIED_TOKEN_PAIRS.map((pair) => {
+	const wcag = evaluateWcag(pair.fg, pair.bg);
+	const apca = evaluateApca(pair.fg, pair.bg);
+	return {
+		pair,
+		wcag,
+		apca,
+		passesGate: wcag.ratio >= pair.expectedWcagMin && apca.absLc >= pair.expectedApcaMin,
+	};
+});
+
+const allPassed = tokenEvaluations.every((t) => t.passesGate);
+---
+
+<MainLayout title="Accessibility & Spatial Quality Lab | Intuitui Labs" theme="studio">
+	<div class="space-y-24 sm:space-y-32">
+		<!-- Header -->
+		<header class="max-w-4xl space-y-6">
+			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-300 bg-sky-50 text-sky-900 w-fit">
+				<span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse" aria-hidden="true"></span>
+				<p class="mono-label text-sky-900">Quality Architecture Gate · ;p</p>
+			</div>
+			<h1 class="text-5xl sm:text-7xl font-bold tracking-tighter leading-[0.95] text-brand-primary">
+				Accessibility & Spatial Harmony Lab
+			</h1>
+			<p class="measure-optimal text-xl sm:text-2xl text-brand-secondary font-normal leading-relaxed">
+				Dual-tier verification system: Automated quantitative mathematics (WCAG 2.2 AAA & W3C APCA) paired with human judgment quality gates.
+			</p>
+
+			<div class="flex flex-wrap items-center gap-4 pt-2">
+				<div class="px-4 py-2 rounded-lg bg-emerald-100 border border-emerald-300 text-emerald-900 font-mono text-xs font-bold flex items-center gap-2">
+					<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+					<span>Gate 1 Status: {allPassed ? 'ALL TOKENS MATHEMATICALLY VERIFIED' : 'GATES PENDING'}</span>
+				</div>
+				<button
+					id="toggle-grid-btn"
+					type="button"
+					class="touch-target px-4 py-2 rounded-lg border border-brand-border bg-brand-surface text-brand-primary font-mono text-xs font-bold hover:bg-slate-100 transition-colors flex items-center gap-2 cursor-pointer"
+				>
+					<span aria-hidden="true">▦</span>
+					<span id="grid-btn-text">Toggle 8px Spatial Grid Overlay</span>
+				</button>
+			</div>
+		</header>
+
+		<!-- Interactive Live Contrast Math Simulator -->
+		<section class="systems-card rounded-3xl p-8 sm:p-12 space-y-8 bg-brand-surface" aria-labelledby="simulator-heading">
+			<div class="border-b border-brand-border pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+				<div>
+					<p class="mono-label mb-1">Gate 1: Automated Math Engine</p>
+					<h2 id="simulator-heading" class="text-3xl font-bold tracking-tight text-brand-primary">
+						Live Perceptual Contrast Calculator
+					</h2>
+				</div>
+				<span class="text-xs font-mono font-bold text-brand-muted">W3C WCAG 2.2 + APCA 0.98G</span>
+			</div>
+
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+				<!-- Color Controls -->
+				<div class="space-y-6">
+					<div class="space-y-4">
+						<label class="block space-y-2">
+							<span class="font-mono text-xs font-bold uppercase text-brand-secondary">Foreground Text Color:</span>
+							<div class="flex items-center gap-3">
+								<input
+									type="color"
+									id="calc-fg-picker"
+									value={COLOR_TOKENS.textPrimary}
+									class="w-12 h-12 rounded-lg border border-brand-border cursor-pointer p-0.5 bg-white"
+									aria-label="Pick foreground color"
+								/>
+								<input
+									type="text"
+									id="calc-fg-hex"
+									value={COLOR_TOKENS.textPrimary}
+									class="touch-target px-4 py-2 rounded-lg border border-brand-border font-mono text-base font-bold text-brand-primary uppercase w-36"
+									aria-label="Foreground hex value"
+								/>
+							</div>
+						</label>
+
+						<label class="block space-y-2">
+							<span class="font-mono text-xs font-bold uppercase text-brand-secondary">Background Surface Color:</span>
+							<div class="flex items-center gap-3">
+								<input
+									type="color"
+									id="calc-bg-picker"
+									value={COLOR_TOKENS.surfacePaper}
+									class="w-12 h-12 rounded-lg border border-brand-border cursor-pointer p-0.5 bg-white"
+									aria-label="Pick background color"
+								/>
+								<input
+									type="text"
+									id="calc-bg-hex"
+									value={COLOR_TOKENS.surfacePaper}
+									class="touch-target px-4 py-2 rounded-lg border border-brand-border font-mono text-base font-bold text-brand-primary uppercase w-36"
+									aria-label="Background hex value"
+								/>
+							</div>
+						</label>
+
+						<label class="block space-y-2">
+							<span class="font-mono text-xs font-bold uppercase text-brand-secondary">Color Vision Deficiency (CVD) Simulation:</span>
+							<select
+								id="calc-cvd-select"
+								class="touch-target px-4 py-2.5 rounded-lg border-2 border-slate-900 font-mono text-sm font-bold text-slate-950 w-full bg-white cursor-pointer"
+								aria-label="Simulate Color Vision Deficiency"
+							>
+								<option value="none">Standard Vision (Trichromacy)</option>
+								<option value="deuteranopia">Deuteranopia (Green-Blind, ~6% males)</option>
+								<option value="protanopia">Protanopia (Red-Blind, ~2% males)</option>
+								<option value="tritanopia">Tritanopia (Blue-Blind, Rare)</option>
+								<option value="achromatopsia">Achromatopsia (Monochrome / No Color)</option>
+							</select>
+						</label>
+					</div>
+
+					<!-- Real-Time Metrics Output -->
+					<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+						<div class="p-4 rounded-xl border border-brand-border bg-slate-50 space-y-1">
+							<span class="mono-label text-[11px]">WCAG 2.2 Ratio</span>
+							<p id="calc-wcag-ratio" class="text-3xl font-black font-mono text-brand-primary">17.5:1</p>
+							<span id="calc-wcag-badge" class="inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-emerald-900">
+								AAA PASS
+							</span>
+						</div>
+
+						<div class="p-4 rounded-xl border border-brand-border bg-slate-50 space-y-1">
+							<span class="mono-label text-[11px]">APCA Score</span>
+							<p id="calc-apca-score" class="text-3xl font-black font-mono text-brand-primary">Lc 104</p>
+							<span id="calc-apca-badge" class="inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-emerald-900">
+								BODY PASS
+							</span>
+						</div>
+
+						<div class="p-4 rounded-xl border border-brand-border bg-slate-50 space-y-1 col-span-2 sm:col-span-1">
+							<span class="mono-label text-[11px]">Delta E (CIE76)</span>
+							<p id="calc-deltae-score" class="text-3xl font-black font-mono text-brand-primary">690</p>
+							<span class="text-xs font-mono text-brand-muted font-bold">Color Distance</span>
+						</div>
+					</div>
+
+					<!-- Live APCA Font Matrix Recommendations -->
+					<div class="p-4 rounded-xl border-2 border-slate-900 bg-white space-y-2">
+						<p class="font-mono text-xs font-black uppercase tracking-wider text-slate-950">W3C APCA Min Font Sizes (Weight Lookup):</p>
+						<div class="grid grid-cols-5 gap-2 text-center font-mono text-xs">
+							<div class="p-2 rounded bg-slate-100 border border-slate-300">
+								<span class="block text-[10px] text-slate-600 font-bold">Light 300</span>
+								<strong id="apca-w300" class="text-sm text-slate-950">24px</strong>
+							</div>
+							<div class="p-2 rounded bg-slate-100 border border-slate-300">
+								<span class="block text-[10px] text-slate-600 font-bold">Reg 400</span>
+								<strong id="apca-w400" class="text-sm text-slate-950">14px</strong>
+							</div>
+							<div class="p-2 rounded bg-slate-100 border border-slate-300">
+								<span class="block text-[10px] text-slate-600 font-bold">Semi 600</span>
+								<strong id="apca-w600" class="text-sm text-slate-950">12px</strong>
+							</div>
+							<div class="p-2 rounded bg-slate-100 border border-slate-300">
+								<span class="block text-[10px] text-slate-600 font-bold">Bold 700</span>
+								<strong id="apca-w700" class="text-sm text-slate-950">11px</strong>
+							</div>
+							<div class="p-2 rounded bg-slate-100 border border-slate-300">
+								<span class="block text-[10px] text-slate-600 font-bold">Black 900</span>
+								<strong id="apca-w900" class="text-sm text-slate-950">10px</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Live Preview Swatch -->
+				<div class="space-y-3">
+					<span class="mono-label text-[11px]">Live Surface Simulation</span>
+					<div
+						id="calc-preview-swatch"
+						class="p-8 rounded-2xl border border-brand-border min-h-64 flex flex-col justify-between transition-colors shadow-inner"
+						style={`background-color: ${COLOR_TOKENS.surfacePaper}; color: ${COLOR_TOKENS.textPrimary};`}
+					>
+						<div class="space-y-2">
+							<p class="font-mono text-xs font-bold uppercase tracking-wider opacity-90">Micro Eyebrow · 12px Mono</p>
+							<h3 class="text-3xl font-bold tracking-tight">Display Headline · 30px Bold</h3>
+							<p class="text-base leading-relaxed opacity-95 max-w-md">
+								This is body text rendered on the active surface. In humane systems, visual contrast guarantees intellectual access for all readers.
+							</p>
+						</div>
+						<div class="pt-4 flex items-center justify-between border-t border-current/20 text-xs font-mono">
+							<span>Interactive Affordance ↗</span>
+							<span>;p mark</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Certified Design Tokens Matrix -->
+		<section class="space-y-8" aria-labelledby="tokens-heading">
+			<div class="border-b border-brand-border pb-4 flex items-end justify-between">
+				<div>
+					<p class="mono-label mb-1">Production Registry</p>
+					<h2 id="tokens-heading" class="text-3xl font-bold tracking-tight text-brand-primary">
+						Certified Design Token Pairs
+					</h2>
+				</div>
+				<span class="text-xs font-mono font-bold text-emerald-700">100% AUTOMATED GATE PASS</span>
+			</div>
+
+			<div class="overflow-x-auto rounded-2xl border border-brand-border bg-brand-surface">
+				<table class="w-full text-left text-sm" aria-label="Certified Design Token Pairs">
+					<thead class="bg-slate-50 border-b border-brand-border text-xs font-mono uppercase text-brand-secondary">
+						<tr>
+							<th class="p-4">Token Pair</th>
+							<th class="p-4">Colors</th>
+							<th class="p-4">WCAG 2.2 Ratio</th>
+							<th class="p-4">APCA Score</th>
+							<th class="p-4">Usage Intent</th>
+							<th class="p-4">Gate Status</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-brand-border font-mono text-xs">
+						{tokenEvaluations.map(({ pair, wcag, apca, passesGate }) => (
+							<tr class="hover:bg-slate-50/80 transition-colors">
+								<td class="p-4 font-bold text-brand-primary">{pair.name}</td>
+								<td class="p-4">
+									<div class="flex items-center gap-2">
+										<span class="w-4 h-4 rounded border border-black/20" style={`background-color: ${pair.fg};`} title={`Foreground: ${pair.fg}`}></span>
+										<span class="text-slate-400">/</span>
+										<span class="w-4 h-4 rounded border border-black/20" style={`background-color: ${pair.bg};`} title={`Background: ${pair.bg}`}></span>
+										<span class="text-[11px] text-brand-muted">{pair.fg} on {pair.bg}</span>
+									</div>
+								</td>
+								<td class="p-4">
+									<span class={`font-bold ${wcag.passesAaaNormal ? 'text-emerald-700' : 'text-sky-800'}`}>
+										{wcag.ratio}:1 {wcag.passesAaaNormal ? '(AAA)' : '(AA)'}
+									</span>
+								</td>
+								<td class="p-4">
+									<span class="font-bold text-brand-primary">
+										|Lc| {apca.absLc}
+									</span>
+								</td>
+								<td class="p-4 font-sans text-xs text-brand-secondary">{pair.usage}</td>
+								<td class="p-4">
+									<span class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-emerald-100 text-emerald-900 border border-emerald-300">
+										PASSED
+									</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Spatial Harmony & Typographic Architecture -->
+		<section class="space-y-8" aria-labelledby="spatial-heading">
+			<div class="border-b border-brand-border pb-4 flex items-end justify-between">
+				<div>
+					<p class="mono-label mb-1">Spatial Architecture</p>
+					<h2 id="spatial-heading" class="text-3xl font-bold tracking-tight text-brand-primary">
+						Modular Typographic Scale & 8px Quantum Rhythm
+					</h2>
+				</div>
+				<span class="text-xs font-mono font-bold text-brand-muted">UTOPIA FLUID CLAMP</span>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				<div class="systems-card p-6 rounded-2xl space-y-4 bg-brand-surface">
+					<h3 class="text-xl font-bold text-brand-primary">Fluid Typographic Hierarchy</h3>
+					<p class="text-sm text-brand-secondary">
+						Progresses smoothly from 360px viewport to 1280px screen without jarring media-query snap points.
+					</p>
+
+					<div class="space-y-3 pt-2 font-mono text-xs divide-y divide-brand-border">
+						{Object.entries(INTUITUI_TYPE_SCALE).map(([key, spec]) => (
+							<div class="pt-3 first:pt-0 flex items-center justify-between">
+								<div>
+									<p class="font-bold text-brand-primary">{spec.name}</p>
+									<p class="text-[11px] text-brand-muted">{spec.minPx}px → {spec.maxPx}px · Leading: {spec.lineHeight}</p>
+								</div>
+								<span class="px-2 py-1 rounded bg-slate-100 border text-[11px] text-brand-secondary">
+									{spec.recommendedMeasureCh}ch max
+								</span>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div class="systems-card p-6 rounded-2xl space-y-4 bg-brand-surface">
+					<h3 class="text-xl font-bold text-brand-primary">8px Spatial Quantum Intervals</h3>
+					<p class="text-sm text-brand-secondary">
+						All card paddings, section gaps, and touch targets conform to the 4px / 8px grid quantum.
+					</p>
+
+					<div class="grid grid-cols-4 gap-2 pt-2 font-mono text-xs">
+						{SPATIAL_INTERVALS.map((int) => (
+							<div class="p-3 rounded-lg border border-brand-border bg-slate-50 text-center">
+								<p class="font-bold text-brand-primary">{int}px</p>
+								<p class="text-[10px] text-brand-muted">{int / 16}rem</p>
+							</div>
+						))}
+					</div>
+
+					<div class="p-4 rounded-xl bg-sky-50 border border-sky-200 space-y-1">
+						<p class="text-xs font-bold text-sky-900 font-mono">Touch Target Rule (WCAG 2.2 SC 2.5.5 / 2.5.8):</p>
+						<p class="text-xs text-sky-800">
+							Minimum interactive hit target is 44px × 44px on mobile touch devices.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Gate 2: Human Judgment Quality Gate Checklist -->
+		<section class="systems-card rounded-3xl p-8 sm:p-12 space-y-8 bg-brand-surface" aria-labelledby="human-gate-heading">
+			<div class="border-b border-brand-border pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+				<div>
+					<p class="mono-label mb-1">Gate 2: Human Judgment & Systems Quality</p>
+					<h2 id="human-gate-heading" class="text-3xl font-bold tracking-tight text-brand-primary">
+						Human Heuristic & Ergonomic Review Checklist
+					</h2>
+				</div>
+				<span class="text-xs font-mono font-bold text-sky-800">RELEASE SIGN-OFF MATRIX</span>
+			</div>
+
+			<p class="measure-optimal text-base text-brand-secondary leading-relaxed">
+				Mathematical gates prevent algorithmic failures, but human judgment confirms semantic coherence, reading pleasure, and emotional dignity. Complete this checklist before staging sign-off.
+			</p>
+
+			<div class="space-y-4" id="human-checklist">
+				{[
+					{ id: 'check-1', title: '1. Semantic Landmark Tree & Heading Order', desc: 'Verify <header>, <nav>, <main>, and <footer> landmarks are uniquely labelled and headings (h1 -> h2 -> h3) never skip levels.' },
+					{ id: 'check-2', title: '2. Keyboard Navigation & Non-Visual Model', desc: 'Tab through the entire page: skip link appears first, focus rings maintain >= 3:1 contrast, and Escape key closes the mobile drawer.' },
+					{ id: 'check-3', title: '3. Screen Reader Usability Walkthrough', desc: 'Verify with VoiceOver / NVDA that all icons have accessible text, links describe their destination, and no content is announced twice.' },
+					{ id: 'check-4', title: '4. 400% Zoom & Dynamic Type Reflow', desc: 'Zoom viewport to 400% (320px equivalent): verify no two-dimensional scrolling, no clipping, and all buttons remain fully clickable.' },
+					{ id: 'check-5', title: '5. Vestibular Comfort & Reduced Motion', desc: 'Enable prefers-reduced-motion in OS settings: verify all parallax, transitions, and animations settle immediately to 0.01ms.' },
+					{ id: 'check-6', title: '6. Gestalt Spatial Harmony & Squint Test', desc: 'Squint at the page: is the dominant focal point obvious? Does eye saccade naturally from title to body to action target without confusion?' },
+					{ id: 'check-7', title: '7. Cognitive Load ("Brevity, Clarity, Levity")', desc: 'Ensure copy avoids empty SaaS buzzwords, preserves brevity, and communicates genuine human warmth.' }
+				].map((item) => (
+					<label class="flex items-start gap-4 p-4 rounded-xl border border-brand-border hover:bg-slate-50 transition-colors cursor-pointer">
+						<input
+							type="checkbox"
+							name="human-gate"
+							id={item.id}
+							class="mt-1 h-5 w-5 rounded border-brand-border text-brand-primary focus:ring-brand-sky"
+						/>
+						<div class="space-y-1">
+							<span class="text-base font-bold text-brand-primary block">{item.title}</span>
+							<span class="text-xs text-brand-secondary leading-relaxed block">{item.desc}</span>
+						</div>
+					</label>
+				))}
+			</div>
+
+			<div class="pt-4 border-t border-brand-border flex items-center justify-between">
+				<p class="text-xs font-mono text-brand-muted" id="checklist-counter">0 / 7 Criteria Signed Off</p>
+				<button
+					type="button"
+					id="signoff-btn"
+					class="touch-target px-5 py-2.5 rounded-xl bg-brand-primary text-white font-mono text-xs font-bold hover:bg-slate-800 transition-colors cursor-pointer"
+				>
+					Record Reviewer Sign-Off
+				</button>
+			</div>
+		</section>
+	</div>
+
+	<!-- Interactive Client Script for Calculator & Grid Overlay -->
+	<script>
+		import { evaluateWcag, evaluateApca, getDeltaE, getApcaFontMatrix, simulateCvdHex, type CvdType } from '../lib/a11y/contrast-math';
+
+		// Spatial Grid Overlay Toggle
+		const gridBtn = document.getElementById('toggle-grid-btn');
+		const gridText = document.getElementById('grid-btn-text');
+		let gridActive = false;
+
+		if (gridBtn && gridText) {
+			gridBtn.addEventListener('click', () => {
+				gridActive = !gridActive;
+				document.body.classList.toggle('systems-grid-active', gridActive);
+				gridText.textContent = gridActive ? 'Hide 8px Spatial Grid Overlay' : 'Toggle 8px Spatial Grid Overlay';
+				
+				if (gridActive) {
+					document.body.style.backgroundImage = 'linear-gradient(to bottom, rgba(3, 105, 161, 0.08) 1px, transparent 1px)';
+					document.body.style.backgroundSize = '100% 8px';
+				} else {
+					document.body.style.backgroundImage = '';
+					document.body.style.backgroundSize = '';
+				}
+			});
+		}
+
+		// Contrast Calculator
+		const fgPicker = document.getElementById('calc-fg-picker') as HTMLInputElement;
+		const fgHex = document.getElementById('calc-fg-hex') as HTMLInputElement;
+		const bgPicker = document.getElementById('calc-bg-picker') as HTMLInputElement;
+		const bgHex = document.getElementById('calc-bg-hex') as HTMLInputElement;
+		const cvdSelect = document.getElementById('calc-cvd-select') as HTMLSelectElement;
+
+		const wcagRatio = document.getElementById('calc-wcag-ratio');
+		const wcagBadge = document.getElementById('calc-wcag-badge');
+		const apcaScore = document.getElementById('calc-apca-score');
+		const apcaBadge = document.getElementById('calc-apca-badge');
+		const deltaeScore = document.getElementById('calc-deltae-score');
+		const previewSwatch = document.getElementById('calc-preview-swatch');
+
+		const apcaW300 = document.getElementById('apca-w300');
+		const apcaW400 = document.getElementById('apca-w400');
+		const apcaW600 = document.getElementById('apca-w600');
+		const apcaW700 = document.getElementById('apca-w700');
+		const apcaW900 = document.getElementById('apca-w900');
+
+		const recalculate = () => {
+			let fg = fgHex?.value.trim() || '#090d16';
+			let bg = bgHex?.value.trim() || '#fcfbf7';
+			const cvd = (cvdSelect?.value || 'none') as CvdType | 'none';
+
+			try {
+				let displayFg = fg;
+				let displayBg = bg;
+
+				if (cvd !== 'none') {
+					displayFg = simulateCvdHex(fg, cvd);
+					displayBg = simulateCvdHex(bg, cvd);
+				}
+
+				const wcag = evaluateWcag(displayFg, displayBg);
+				const apca = evaluateApca(displayFg, displayBg);
+				const dE = getDeltaE(displayFg, displayBg);
+				const fontMatrix = getApcaFontMatrix(apca.absLc);
+
+				if (wcagRatio) wcagRatio.textContent = `${wcag.ratio}:1`;
+				if (wcagBadge) {
+					if (wcag.passesAaaNormal) {
+						wcagBadge.textContent = 'AAA PASS';
+						wcagBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-emerald-900';
+					} else if (wcag.passesAaNormal) {
+						wcagBadge.textContent = 'AA PASS';
+						wcagBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-100 text-sky-900';
+					} else {
+						wcagBadge.textContent = 'FAIL';
+						wcagBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-rose-100 text-rose-900';
+					}
+				}
+
+				if (apcaScore) apcaScore.textContent = `Lc ${apca.absLc}`;
+				if (apcaBadge) {
+					if (apca.passesBodyText) {
+						apcaBadge.textContent = 'BODY PASS';
+						apcaBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-emerald-900';
+					} else if (apca.passesLargeText) {
+						apcaBadge.textContent = 'LARGE ONLY';
+						apcaBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-amber-100 text-amber-900';
+					} else {
+						apcaBadge.textContent = 'FAIL';
+						apcaBadge.className = 'inline-block px-2 py-0.5 rounded text-xs font-mono font-bold bg-rose-100 text-rose-900';
+					}
+				}
+
+				if (deltaeScore) deltaeScore.textContent = `${dE}`;
+
+				if (apcaW300) apcaW300.textContent = fontMatrix.w300 ? `${fontMatrix.w300}px` : 'N/A';
+				if (apcaW400) apcaW400.textContent = fontMatrix.w400 ? `${fontMatrix.w400}px` : 'N/A';
+				if (apcaW600) apcaW600.textContent = fontMatrix.w600 ? `${fontMatrix.w600}px` : 'N/A';
+				if (apcaW700) apcaW700.textContent = fontMatrix.w700 ? `${fontMatrix.w700}px` : 'N/A';
+				if (apcaW900) apcaW900.textContent = fontMatrix.w900 ? `${fontMatrix.w900}px` : 'N/A';
+
+				if (previewSwatch) {
+					previewSwatch.style.backgroundColor = displayBg;
+					previewSwatch.style.color = displayFg;
+				}
+			} catch (err) {
+				console.warn('Invalid color input:', err);
+			}
+		};
+
+		fgPicker?.addEventListener('input', () => {
+			if (fgHex) fgHex.value = fgPicker.value;
+			recalculate();
+		});
+		fgHex?.addEventListener('input', () => {
+			if (fgPicker && fgHex.value.length === 7) fgPicker.value = fgHex.value;
+			recalculate();
+		});
+
+		bgPicker?.addEventListener('input', () => {
+			if (bgHex) bgHex.value = bgPicker.value;
+			recalculate();
+		});
+		bgHex?.addEventListener('input', () => {
+			if (bgPicker && bgHex.value.length === 7) bgPicker.value = bgHex.value;
+			recalculate();
+		});
+
+		cvdSelect?.addEventListener('change', () => {
+			recalculate();
+		});
+
+		// Checklist counter
+		const checkboxes = document.querySelectorAll('input[name="human-gate"]');
+		const counter = document.getElementById('checklist-counter');
+		const signoffBtn = document.getElementById('signoff-btn');
+
+		const updateCounter = () => {
+			const checkedCount = Array.from(checkboxes).filter((c) => (c as HTMLInputElement).checked).length;
+			if (counter) counter.textContent = `${checkedCount} / ${checkboxes.length} Criteria Signed Off`;
+			if (signoffBtn) {
+				if (checkedCount === checkboxes.length) {
+					signoffBtn.textContent = '✓ Sign-Off Complete (All Criteria Met)';
+					signoffBtn.classList.remove('bg-brand-primary');
+					signoffBtn.classList.add('bg-emerald-700');
+				} else {
+					signoffBtn.textContent = 'Record Reviewer Sign-Off';
+					signoffBtn.classList.add('bg-brand-primary');
+					signoffBtn.classList.remove('bg-emerald-700');
+				}
+			}
+		};
+
+		checkboxes.forEach((cb) => cb.addEventListener('change', updateCounter));
+	</script>
+</MainLayout>

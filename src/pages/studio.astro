@@ -1,39 +1,148 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+const pillars = [
+	{ num: '01', title: 'Sensemaking', desc: 'Philosophy, ethics, systems thinking & frameworks to establish deep structural clarity.' },
+	{ num: '02', title: 'Field Understanding', desc: 'Ethnography, workflow mapping, and field immersion to uncover ground truth.' },
+	{ num: '03', title: 'Intervention Design', desc: 'Concept development, rapid prototyping, and human-centered design sprints.' },
+	{ num: '04', title: 'Enabling Technology', desc: 'Ethical AI tools, automated pipelines, lightweight apps, and technical infrastructure.' },
+	{ num: '05', title: 'Culture & Flourishing', desc: 'Humane organizational values, narrative stewardship, and youth capacity development.' }
+];
+
+const functionalUnits = [
+	{ name: 'Systems & Insights Unit', role: 'Research, sensemaking, systems analysis, and opportunity mapping.' },
+	{ name: 'Design & Transformation Lab', role: 'Intervention design, prototyping, service design, and systems architecture.' },
+	{ name: 'Applied Technology Division', role: 'AI tooling, workflow automation, micro-apps, and robust data pipelines.' },
+	{ name: 'Communication & Culture Studio', role: 'Storytelling, diagrams, clarity artifacts, and public discourse.' },
+	{ name: 'Learning & Human Development Collective', role: 'Internal culture, leadership incubation, youth mentorship, and reflective practices.' }
+];
+
+const sectors = [
+	{ domain: 'Education Systems', detail: 'Teacher workflow tools, learning platforms, and school administration optimization.' },
+	{ domain: 'SME Modernization', detail: 'Local business workflow automation, digital transformation, and insight systems.' },
+	{ domain: 'Agriculture & Rural Systems', detail: 'Data platforms for farmers and extension officers, promoting sustainable practices.' },
+	{ domain: 'Governance & Public Sector', detail: 'Administrative efficiency tools and public-sector digital modernization.' },
+	{ domain: 'Knowledge Infrastructure', detail: 'Local language digital resources, open datasets, and accessible national knowledge graphs.' }
+];
 ---
 
 <MainLayout title="Studio | Intuitui Labs" theme="studio">
-	<div class="space-y-12">
-		<div class="space-y-4">
-			<p class="mono-label">Professional Practice</p>
-			<h1 class="text-5xl font-bold tracking-tighter">The Studio Model</h1>
-		</div>
+	<div class="max-w-7xl mx-auto space-y-24 sm:space-y-32">
+		<!-- Header -->
+		<header class="max-w-4xl space-y-6">
+			<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border-2 border-slate-900 bg-white w-fit shadow-xs">
+				<p class="font-mono text-sm font-bold text-slate-950 uppercase tracking-wider">Professional Practice & Architecture</p>
+			</div>
+			<h1 class="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-[0.92] text-slate-950">
+				Systems Intelligence Studio
+			</h1>
+			<p class="measure-optimal text-2xl text-slate-800 font-medium leading-relaxed">
+				Intuitui Labs transforms real-world Sri Lankan workflows through research, design, and elegant, humane technology.
+			</p>
+		</header>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-24">
-			<div class="space-y-8">
-				<p class="text-xl text-brand-secondary">
-					Intuitui Labs operates as a service gateway for systems intelligence. We partner with organizations to audit workflows, map complexities, and design humane transitions.
-				</p>
-				<div class="space-y-4">
-					<h2 class="mono-label !opacity-100">Core Services</h2>
-					<ul class="space-y-2 text-sm text-brand-secondary">
-						<li>• Systems Audit & Workflow Mapping</li>
-						<li>• Humane AI Integration</li>
-						<li>• Digital Transformation Frameworks</li>
-						<li>• Knowledge Infrastructure Design</li>
-					</ul>
+		<!-- 5 Core Pillars -->
+		<section class="space-y-8" aria-labelledby="pillars-heading">
+			<div class="border-b-2 border-slate-900 pb-4 flex items-end justify-between">
+				<div>
+					<p class="mono-label mb-1">Strategic Operating Spine</p>
+					<h2 id="pillars-heading" class="text-3xl sm:text-4xl font-black text-slate-950">
+						The 5 Core Pillars
+					</h2>
 				</div>
+				<span class="text-sm font-mono font-bold text-slate-700">05 // PILLARS</span>
 			</div>
-			<div class="bg-black text-white p-12 space-y-6">
-				<h2 class="text-2xl font-bold text-white">Inquiries</h2>
-				<p class="text-sm opacity-70">
-					We seek partnerships with founders, educators, and policy makers who value clarity and dignity over sheer speed.
-				</p>
-				<div class="pt-4">
-					<p class="mono-label text-white opacity-40">Direct Contact</p>
-					<p class="font-mono text-sm underline decoration-white/20 underline-offset-4">hello@intuituilabs.lk</p>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+				{pillars.map((p) => (
+					<article class="systems-card p-8 space-y-4 border-t-6 border-t-sky-700 bg-white flex flex-col justify-between" aria-labelledby={`pillar-${p.num}`}>
+						<div class="space-y-3">
+							<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+								<span class="text-sm font-mono font-black text-sky-800 uppercase tracking-wider">Pillar {p.num}</span>
+								<span class="w-3 h-3 rounded-full bg-sky-700" aria-hidden="true"></span>
+							</div>
+							<h3 id={`pillar-${p.num}`} class="text-2xl font-black tracking-tight text-slate-950">{p.title}</h3>
+							<p class="text-base text-slate-800 font-medium leading-relaxed">{p.desc}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- 5 Functional Units -->
+		<section class="space-y-8" aria-labelledby="units-heading">
+			<div class="border-b-2 border-slate-900 pb-4 flex items-end justify-between">
+				<div>
+					<p class="mono-label mb-1">Operating Architecture</p>
+					<h2 id="units-heading" class="text-3xl sm:text-4xl font-black text-slate-950">
+						Public-Facing Functional Units
+					</h2>
 				</div>
+				<span class="text-sm font-mono font-bold text-slate-700">05 // UNITS</span>
 			</div>
-		</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				{functionalUnits.map((unit, idx) => (
+					<article class="systems-card p-8 border-t-6 border-t-emerald-700 space-y-3 bg-white" aria-labelledby={`unit-${idx}`}>
+						<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+							<span class="font-mono text-sm font-black text-emerald-800 uppercase tracking-wider">Unit 0{idx + 1}</span>
+							<span class="w-3 h-3 rounded-full bg-emerald-700" aria-hidden="true"></span>
+						</div>
+						<h3 id={`unit-${idx}`} class="text-2xl font-black text-slate-950">{unit.name}</h3>
+						<p class="text-base text-slate-800 font-medium leading-relaxed pt-1">{unit.role}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- 5 Sector Domains -->
+		<section class="space-y-8" aria-labelledby="sectors-heading">
+			<div class="border-b-2 border-slate-900 pb-4 flex items-end justify-between">
+				<div>
+					<p class="mono-label mb-1">Sectoral Focus</p>
+					<h2 id="sectors-heading" class="text-3xl sm:text-4xl font-black text-slate-950">
+						Core Domains in Sri Lanka
+					</h2>
+				</div>
+				<span class="text-sm font-mono font-bold text-slate-700">05 // DOMAINS</span>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+				{sectors.map((s, idx) => (
+					<article class="systems-card p-7 space-y-3 bg-white" aria-labelledby={`sector-${idx}`}>
+						<span class="font-mono text-xs font-black uppercase tracking-wider text-slate-600">Domain 0{idx + 1}</span>
+						<h3 id={`sector-${idx}`} class="text-2xl font-black text-slate-950">{s.domain}</h3>
+						<p class="text-sm sm:text-base text-slate-800 font-medium leading-relaxed pt-1">{s.detail}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Strategic Engagements Callout (High Contrast Banner) -->
+		<section class="systems-card bg-slate-950 text-white p-8 sm:p-12 md:p-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 shadow-xl" aria-labelledby="inquiries-heading">
+			<div class="space-y-3 max-w-xl">
+				<div class="flex items-center gap-2">
+					<span class="w-3 h-3 rounded-full bg-sky-400" aria-hidden="true"></span>
+					<p class="font-mono text-sm font-bold text-sky-300 uppercase tracking-wider">Partnerships & Collaborations</p>
+				</div>
+				<h2 id="inquiries-heading" class="text-4xl sm:text-5xl font-black text-white tracking-tight">
+					Inquiries & Strategic Engagements
+				</h2>
+				<p class="text-slate-300 text-lg leading-relaxed font-normal">
+					We seek partnerships with founders, educators, and policy makers who value clarity, rigorous sensemaking, and human dignity over sheer haste.
+				</p>
+			</div>
+
+			<div class="shrink-0 p-8 rounded-2xl bg-white/10 border-2 border-white/20 space-y-3">
+				<p class="font-mono text-xs font-bold text-slate-300 uppercase tracking-wider">Direct Communication</p>
+				<a
+					href="mailto:hello@intuituilabs.lk"
+					class="touch-target tactile-press font-mono text-lg font-black text-sky-300 hover:text-white underline underline-offset-4 flex items-center gap-2"
+				>
+					<span>hello@intuituilabs.lk</span>
+					<span aria-hidden="true">↗</span>
+				</a>
+			</div>
+		</section>
 	</div>
 </MainLayout>

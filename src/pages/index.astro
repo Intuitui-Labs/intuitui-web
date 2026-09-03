@@ -3,30 +3,153 @@ import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout title="Intuitui Labs | Systems Intelligence" theme="home">
-	<section class="space-y-24 sm:space-y-32">
-		<header class="min-h-[calc(100svh-7rem)] flex flex-col justify-center max-w-4xl space-y-7 sm:space-y-9">
-			<p class="mono-label">A philosophy-led systems studio · ;p</p>
-			<h1 class="text-[3.75rem] sm:text-7xl md:text-8xl font-bold leading-[0.9] tracking-tighter">Making sense of <span class="text-brand-sky">complex life.</span></h1>
-			<p class="max-w-2xl text-xl sm:text-2xl text-brand-secondary font-light leading-snug">Intuitui Labs explores how people, institutions, knowledge, and technology can form more humane systems — then gives those ideas practical shape.</p>
-			<div class="flex flex-wrap gap-5 pt-2 text-sm font-medium">
-				<a class="underline decoration-black/20 underline-offset-4 hover:decoration-brand-accent" href="/projects">See the work ↗</a>
-				<a class="underline decoration-black/20 underline-offset-4 hover:decoration-brand-accent" href="/about">Read the philosophy ↗</a>
+	<div class="space-y-28 sm:space-y-36">
+		<!-- Hero Section (Modern Intrinsic Content-First Flow) -->
+		<header class="min-h-[max(28rem,72dvh)] py-8 sm:py-16 flex flex-col justify-center max-w-4xl space-y-8 sm:space-y-10">
+			<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border-2 border-slate-900 bg-white w-fit shadow-xs">
+				<span class="w-3 h-3 rounded-full bg-emerald-600 animate-pulse" aria-hidden="true"></span>
+				<p class="font-mono text-sm font-bold text-slate-950 uppercase tracking-wider">A philosophy-led systems studio</p>
 			</div>
-			<p class="pt-6 text-xs font-mono text-brand-secondary/70">Brevity, Clarity, Levity. <span aria-hidden="true">⚡ · 💡 · 😜</span></p>
+
+			<h1 class="text-6xl sm:text-7xl md:text-8xl font-black leading-[0.92] tracking-tighter text-slate-950">
+				Making sense of <span class="text-sky-700 underline decoration-sky-400 decoration-4 underline-offset-8">complex life.</span>
+			</h1>
+
+			<p class="measure-optimal text-xl sm:text-2xl text-slate-800 font-medium leading-relaxed">
+				Intuitui Labs explores how people, institutions, knowledge, and technology can form more humane systems — then gives those ideas practical shape.
+			</p>
+
+			<div class="flex flex-wrap items-center gap-4 pt-4">
+				<a
+					href="/projects"
+					class="touch-target tactile-press px-7 py-4 rounded-xl bg-slate-950 text-white font-bold text-base hover:bg-slate-800 shadow-md flex items-center gap-2 border-2 border-slate-950"
+				>
+					<span>See the work</span>
+					<span aria-hidden="true">↗</span>
+				</a>
+				<a
+					href="/about"
+					class="touch-target tactile-press px-7 py-4 rounded-xl border-2 border-slate-950 bg-white text-slate-950 font-bold text-base hover:bg-slate-100 flex items-center gap-2 shadow-xs"
+				>
+					<span>Read the philosophy</span>
+					<span aria-hidden="true">→</span>
+				</a>
+				{import.meta.env.DEV && (
+					<a
+						href="/a11y"
+						class="touch-target px-5 py-4 rounded-xl border-2 border-dashed border-sky-800 bg-sky-50 text-sky-900 font-mono text-sm font-extrabold hover:bg-sky-100 transition-all flex items-center gap-2"
+						title="Development-only inspector"
+					>
+						<span>A11y Lab (Dev)</span>
+						<span aria-hidden="true">⚡</span>
+					</a>
+				)}
+			</div>
+
+			<!-- Brand Tagline Lockup -->
+			<div class="pt-6 border-t-2 border-slate-900/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/70 border border-brand-border/60 shadow-xs">
+				<div class="space-y-1">
+					<p class="mono-label text-xs text-slate-600">Studio Tagline & Discipline</p>
+					<p class="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+						Brevity, Clarity, Levity.
+					</p>
+				</div>
+				<div class="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-950 text-white font-mono text-xs font-bold tracking-wider shadow-sm">
+					<span class="text-amber-400" aria-hidden="true">⚡</span>
+					<span>Brevity</span>
+					<span class="text-slate-500" aria-hidden="true">·</span>
+					<span class="text-sky-300" aria-hidden="true">💡</span>
+					<span>Clarity</span>
+					<span class="text-slate-500" aria-hidden="true">·</span>
+					<span class="text-rose-400" aria-hidden="true">😜</span>
+					<span>Levity</span>
+				</div>
+			</div>
 		</header>
 
-		<section class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 border-t border-black/10 pt-8" aria-labelledby="practice-heading">
-			<div class="md:col-span-1"><h2 id="practice-heading" class="text-sm font-mono uppercase tracking-[0.2em]">The practice</h2></div>
-			<div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-8">
-				<div class="space-y-3"><p class="text-2xl font-bold">See</p><p class="text-sm text-brand-secondary">Attend to reality before deciding what it means.</p></div>
-				<div class="space-y-3"><p class="text-2xl font-bold">Make sense</p><p class="text-sm text-brand-secondary">Find patterns, relationships, and possibilities without flattening complexity.</p></div>
-				<div class="space-y-3"><p class="text-2xl font-bold">Give form</p><p class="text-sm text-brand-secondary">Turn understanding into tools, platforms, experiments, and care.</p></div>
+		<!-- The Practice (3-Step Spatial Rhythm with Clear Centering) -->
+		<section class="space-y-8" aria-labelledby="practice-heading">
+			<div class="flex items-end justify-between border-b-2 border-slate-900 pb-4">
+				<div>
+					<p class="mono-label mb-1">Methodology</p>
+					<h2 id="practice-heading" class="text-3xl sm:text-5xl font-black tracking-tight text-slate-950">The Practice</h2>
+				</div>
+				<span class="text-sm font-mono font-bold text-slate-700">03 // STAGES</span>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+				<div class="systems-card p-8 space-y-4 border-t-6 border-t-sky-700 bg-white">
+					<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+						<span class="font-mono text-sm font-black text-sky-800 uppercase tracking-wider">Step 01</span>
+						<span class="w-3 h-3 rounded-full bg-sky-700" aria-hidden="true"></span>
+					</div>
+					<h3 class="text-3xl font-black text-slate-950">See</h3>
+					<p class="text-base text-slate-800 font-medium leading-relaxed">
+						Attend to ground reality and observe hidden friction before prescribing solutions or declaring assumptions.
+					</p>
+				</div>
+
+				<div class="systems-card p-8 space-y-4 border-t-6 border-t-emerald-700 bg-white">
+					<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+						<span class="font-mono text-sm font-black text-emerald-800 uppercase tracking-wider">Step 02</span>
+						<span class="w-3 h-3 rounded-full bg-emerald-700" aria-hidden="true"></span>
+					</div>
+					<h3 class="text-3xl font-black text-slate-950">Make sense</h3>
+					<p class="text-base text-slate-800 font-medium leading-relaxed">
+						Synthesize raw observations into clear models, structural diagrams, and frameworks without flattening complexity.
+					</p>
+				</div>
+
+				<div class="systems-card p-8 space-y-4 border-t-6 border-t-amber-600 bg-white">
+					<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+						<span class="font-mono text-sm font-black text-amber-800 uppercase tracking-wider">Step 03</span>
+						<span class="w-3 h-3 rounded-full bg-amber-600" aria-hidden="true"></span>
+					</div>
+					<h3 class="text-3xl font-black text-slate-950">Give form</h3>
+					<p class="text-base text-slate-800 font-medium leading-relaxed">
+						Turn deep understanding into lightweight tools, resilient platforms, living experiments, and community care.
+					</p>
+				</div>
 			</div>
 		</section>
 
-		<section class="grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-10 md:gap-24 items-start" aria-labelledby="gurudevi-heading">
-			<div class="space-y-4"><p class="mono-label">First expression</p><h2 id="gurudevi-heading" class="text-4xl sm:text-5xl font-bold tracking-tight">Gurudevi</h2></div>
-			<div class="space-y-6"><p class="text-xl text-brand-secondary leading-relaxed">An education ecology support system and sanctuary for teachers and learners, built as part of the EdLove constellation.</p><a class="text-sm font-medium underline decoration-black/20 underline-offset-4" href="https://gurudevi.edlove.org" target="_blank" rel="noreferrer">Visit Gurudevi ↗</a></div>
+		<!-- Featured Expression: Gurudevi -->
+		<section class="systems-card p-8 sm:p-12 md:p-16 bg-white relative overflow-hidden" aria-labelledby="gurudevi-heading">
+			<div class="grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-8 md:gap-16 items-start">
+				<div class="space-y-4">
+					<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-emerald-100 text-emerald-950 border-2 border-emerald-700 text-xs font-mono font-black uppercase">
+						<span class="w-2 h-2 rounded-full bg-emerald-700" aria-hidden="true"></span>
+						<span>First Public Expression</span>
+					</div>
+					<h2 id="gurudevi-heading" class="text-5xl sm:text-6xl font-black tracking-tight text-slate-950">
+						Gurudevi
+					</h2>
+					<p class="font-mono text-sm font-bold text-slate-600">Stage 04 · Enabling Technology</p>
+				</div>
+
+				<div class="space-y-6">
+					<p class="text-xl text-slate-800 font-medium leading-relaxed">
+						An education ecology support system and sanctuary for teachers and learners, engineered as the frontline expression of the EdLove constellation in Sri Lanka.
+					</p>
+					<div class="flex flex-wrap gap-4 pt-2">
+						<a
+							href="https://gurudevi.edlove.org"
+							target="_blank"
+							rel="noreferrer"
+							class="touch-target px-7 py-3.5 rounded-xl bg-slate-950 text-white font-bold text-base hover:bg-slate-800 transition-all flex items-center gap-2 shadow-sm border-2 border-slate-950"
+						>
+							<span>Visit Gurudevi Sanctuary</span>
+							<span aria-hidden="true">↗</span>
+						</a>
+						<a
+							href="/projects"
+							class="touch-target px-6 py-3.5 rounded-xl border-2 border-slate-950 bg-white text-slate-950 font-bold text-base hover:bg-slate-100 transition-all"
+						>
+							<span>Explore All Constellations</span>
+						</a>
+					</div>
+				</div>
+			</div>
 		</section>
-	</section>
+	</div>
 </MainLayout>

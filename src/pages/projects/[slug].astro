@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { publicProjects } from '../../lib/projects';
+import ProvenanceColophon from '../../components/ProvenanceColophon.astro';
 
 export function getStaticPaths() {
 	return publicProjects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
@@ -9,14 +10,88 @@ export function getStaticPaths() {
 const { project } = Astro.props;
 ---
 
-<MainLayout title={`${project.name} | Intuitui Labs`} theme="projects">
+<MainLayout
+	title={`${project.name} | Intuitui Labs`}
+	theme="projects"
+	publishedDate="2026-08-29T17:53:12+05:30"
+	updatedDate="2026-08-29T17:53:12+05:30"
+>
 	<article class="max-w-4xl space-y-20 sm:space-y-28">
+		<!-- Navigation & Header -->
 		<header class="space-y-8">
-			<a class="text-sm font-mono underline decoration-black/20 underline-offset-4" href="/projects">← All work</a>
-			<div class="space-y-5"><p class="mono-label">{project.statusLabel} · {project.category}</p><h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.9]">{project.name}</h1><p class="max-w-2xl text-2xl text-brand-secondary font-light leading-snug">{project.relation}</p></div>
+			<a class="inline-flex items-center gap-2 text-sm font-mono font-semibold text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target" href="/projects">
+				<span aria-hidden="true">←</span>
+				<span>All Projects & Constellations</span>
+			</a>
+			
+			<div class="space-y-4">
+				<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-border bg-brand-surface w-fit">
+					<span class="w-2 h-2 rounded-full bg-sky-600" aria-hidden="true"></span>
+					<p class="mono-label">{project.statusLabel} · {project.category}</p>
+				</div>
+				<h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.92] text-brand-primary">
+					{project.name}
+				</h1>
+				<p class="measure-optimal text-2xl text-brand-secondary font-normal leading-relaxed">
+					{project.relation}
+				</p>
+			</div>
 		</header>
-		<section class="grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr] gap-8 md:gap-20 border-t border-black/10 pt-7" aria-labelledby="premise-heading"><h2 id="premise-heading" class="text-sm font-mono uppercase tracking-[0.16em]">The premise</h2><p class="text-xl text-brand-secondary leading-relaxed">{project.description}</p></section>
-		<section class="bg-brand-primary text-white p-8 sm:p-12 md:p-16 space-y-6"><p class="mono-label text-white/60">A note on stage</p><h2 class="text-3xl sm:text-5xl font-bold tracking-tight text-white">{project.statusLabel}</h2><p class="max-w-2xl text-white/70 leading-relaxed">{project.stageNote}</p></section>
-		{project.links && <nav class="flex flex-wrap gap-x-7 gap-y-3 text-sm font-medium" aria-label={`${project.name} links`}>{project.links.map((link) => <a class="underline decoration-black/20 underline-offset-4 hover:decoration-brand-accent" href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noreferrer' : undefined}>{link.label} ↗</a>)}</nav>}
+
+		<!-- The Premise -->
+		<section class="grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr] gap-8 md:gap-16 border-t border-brand-border pt-8" aria-labelledby="premise-heading">
+			<div class="space-y-1">
+				<p class="mono-label">System Exploration</p>
+				<h2 id="premise-heading" class="text-2xl font-bold text-brand-primary">The Premise</h2>
+			</div>
+			<p class="measure-optimal text-xl text-brand-secondary leading-relaxed">
+				{project.description}
+			</p>
+		</section>
+
+		<!-- Note on Stage (High-Contrast Obsidian Banner) -->
+		<section class="rounded-3xl bg-brand-obsidian text-white p-8 sm:p-12 md:p-16 space-y-6 shadow-xl" aria-labelledby="stage-note-heading">
+			<div class="flex items-center gap-2">
+				<span class="w-2 h-2 rounded-full bg-sky-400" aria-hidden="true"></span>
+				<p class="mono-label-inverse">A note on maturity</p>
+			</div>
+			<h2 id="stage-note-heading" class="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+				{project.statusLabel}
+			</h2>
+			<p class="measure-optimal text-lg text-slate-200 leading-relaxed font-light">
+				{project.stageNote}
+			</p>
+		</section>
+
+		<!-- Links / Touch Targets -->
+		{project.links && project.links.length > 0 && (
+			<section class="pt-4 border-t border-brand-border" aria-label="Project external destinations">
+				<h2 class="mono-label mb-4">External Destinations</h2>
+				<nav class="flex flex-wrap gap-4">
+					{project.links.map((link) => (
+						<a
+							class="touch-target px-6 py-3 rounded-xl bg-brand-primary text-white font-semibold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+							href={link.href}
+							target={link.external ? '_blank' : undefined}
+							rel={link.external ? 'noreferrer' : undefined}
+						>
+							<span>{link.label}</span>
+							<span aria-hidden="true">↗</span>
+						</a>
+					))}
+				</nav>
+			</section>
+		)}
+		
+		<!-- Provenance & Editorial Colophon -->
+		<ProvenanceColophon
+			author="Intuitui Labs Systems Team"
+			publishDate="2026-08-29T17:53:12+05:30"
+			updatedDate="2026-08-29T17:53:12+05:30"
+			cadence="living-document"
+			canonicalUrl={`https://intuituilabs.edlove.org/projects/${project.slug}`}
+			version="v1.0"
+			class="pt-8"
+		/>
 	</article>
 </MainLayout>
