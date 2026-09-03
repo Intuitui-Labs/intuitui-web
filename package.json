@@ -13,12 +13,19 @@
     "lint": "eslint .",
     "check-types": "pnpm exec tsc --build --noEmit",
     "test": "vitest run",
+    "test:math": "vitest run --tagsFilter 'math'",
+    "test:audit": "vitest run --tagsFilter 'dom'",
+    "test:perf": "vitest run --detectAsyncLeaks --logHeapUsage",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "doctor": "npx -y react-doctor@latest .",
+    "doctor:design": "npx -y react-doctor@latest design"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/svelte": "^9.0.0",
+    "@intuitui-labs/a11y-gate": "file:../packages/a11y-gate",
+    "@intuitui-labs/editorial": "file:../packages/editorial",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^7.0.0",
     "svelte": "^5.56.3",
@@ -27,9 +34,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@rolldown/binding-win32-x64-msvc": "^1.2.6",
+    "@types/jsdom": "^30.0.0",
     "@types/node": "^24.13.3",
     "eslint": "^10.4.1",
-    "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.1.8"
+    "jsdom": "^30.0.1",
+    "vitest": "^5.0.0"
   }
 }
