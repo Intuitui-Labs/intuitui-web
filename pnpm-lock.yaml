@@ -14,6 +14,12 @@ importers:
       '@astrojs/svelte':
         specifier: ^9.0.0
         version: 9.0.1(@types/node@24.13.3)(astro@7.2.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.3)(jiti@2.7.0))(esbuild@0.28.2)(jiti@2.7.0)(svelte@5.56.10)(typescript@7.0.2)
+      '@intuitui-labs/a11y-gate':
+        specifier: github:NeevSK/a11y-gate#main
+        version: git+https://github.com/NeevSK/a11y-gate.git#f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))
+      '@intuitui-labs/editorial':
+        specifier: github:NeevSK/editorial#main
+        version: git+https://github.com/NeevSK/editorial.git#c80e20d1277c2bccc2a43e5bb9129048be156f8b
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.3(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
@@ -667,6 +673,19 @@ packages:
     engines: {node: '>=20.9.0'}
     cpu: [x64]
     os: [win32]
+
+  '@intuitui-labs/a11y-gate@git+https://github.com/NeevSK/a11y-gate.git#f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66':
+    resolution: {commit: f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66, repo: https://github.com/NeevSK/a11y-gate.git, type: git}
+    version: 0.1.0
+    peerDependencies:
+      vitest: '>=1.0.0'
+    peerDependenciesMeta:
+      vitest:
+        optional: true
+
+  '@intuitui-labs/editorial@git+https://github.com/NeevSK/editorial.git#c80e20d1277c2bccc2a43e5bb9129048be156f8b':
+    resolution: {commit: c80e20d1277c2bccc2a43e5bb9129048be156f8b, repo: https://github.com/NeevSK/editorial.git, type: git}
+    version: 0.1.0
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2875,6 +2894,12 @@ snapshots:
 
   '@img/sharp-win32-x64@0.35.3':
     optional: true
+
+  '@intuitui-labs/a11y-gate@git+https://github.com/NeevSK/a11y-gate.git#f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))':
+    optionalDependencies:
+      vitest: 5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
+
+  '@intuitui-labs/editorial@git+https://github.com/NeevSK/editorial.git#c80e20d1277c2bccc2a43e5bb9129048be156f8b': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

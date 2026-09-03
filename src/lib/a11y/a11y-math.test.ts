@@ -12,7 +12,7 @@ import {
   generateFluidClamp,
   SPRING_PRESETS,
   getInterpolatedMotion,
-} from './index';
+} from '@intuitui-labs/a11y-gate';
 import { CERTIFIED_TOKEN_PAIRS, COLOR_TOKENS } from './design-tokens';
 import { INTUITUI_TYPE_SCALE } from './spatial-math';
 
