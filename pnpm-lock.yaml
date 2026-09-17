@@ -116,11 +116,11 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1(@types/node@24.13.3)(astro@7.2.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.3)(jiti@2.7.0))(esbuild@0.28.2)(jiti@2.7.0)(svelte@5.56.10)(typescript@7.0.2)
       '@intuitui-labs/a11y-gate':
-        specifier: github:NeevSK/a11y-gate#main
-        version: https://codeload.github.com/NeevSK/a11y-gate/tar.gz/f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))
+        specifier: ^0.2.0
+        version: 0.2.0(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))
       '@intuitui-labs/editorial':
-        specifier: github:NeevSK/editorial#main
-        version: https://codeload.github.com/NeevSK/editorial/tar.gz/c80e20d1277c2bccc2a43e5bb9129048be156f8b
+        specifier: ^0.1.1
+        version: 0.1.1
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.3(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
@@ -775,18 +775,17 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@intuitui-labs/a11y-gate@https://codeload.github.com/NeevSK/a11y-gate/tar.gz/f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66':
-    resolution: {gitHosted: true, integrity: sha512-b9aOwEF6Rhdqv566Dcl0JMbiUFVn7hpC+k4PZ+OFq9MJQQFsiwFb4seIxiX4oxjX6j5AEMbMw+x7zJaEhU/YUQ==, tarball: https://codeload.github.com/NeevSK/a11y-gate/tar.gz/f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66}
-    version: 0.1.0
+  '@intuitui-labs/a11y-gate@0.2.0':
+    resolution: {integrity: sha512-FRW6rKHJZFTzVKzKhm1CBefIi0AF75SwnbO5ApbLoAKAELN/L6nE3RJZOkOcdbADJgoDLy/sDo6nBX9efwRiFQ==}
     peerDependencies:
       vitest: '>=1.0.0'
     peerDependenciesMeta:
       vitest:
         optional: true
 
-  '@intuitui-labs/editorial@https://codeload.github.com/NeevSK/editorial/tar.gz/c80e20d1277c2bccc2a43e5bb9129048be156f8b':
-    resolution: {gitHosted: true, integrity: sha512-KsnlOZ7yS+ESgyoAxlWT/bP6PRxM42iigvOr7q3d4Ad1pMUVUt6fRhiqFaKaHoET4xUnaoWkqFUpT/2tlrThEQ==, tarball: https://codeload.github.com/NeevSK/editorial/tar.gz/c80e20d1277c2bccc2a43e5bb9129048be156f8b}
-    version: 0.1.0
+  '@intuitui-labs/editorial@0.1.1':
+    resolution: {integrity: sha512-nKbWHXkDh5CBkps/3EIlJLtYHpiQb1Z6Foc/hB9elwGRvCH9iro9jDEwzCfgAVdmJLtAYTJAZVMI0i7IJiKqhg==}
+    hasBin: true
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2511,6 +2510,9 @@ packages:
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
+  zod@4.6.5:
+    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -2989,11 +2991,13 @@ snapshots:
   '@img/sharp-win32-x64@0.35.3':
     optional: true
 
-  '@intuitui-labs/a11y-gate@https://codeload.github.com/NeevSK/a11y-gate/tar.gz/f1a1b5b9ceefe53c0c0a11c5ae64539d3a4b2e66(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))':
+  '@intuitui-labs/a11y-gate@0.2.0(vitest@5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)))':
     optionalDependencies:
       vitest: 5.0.0(@types/node@24.13.3)(jsdom@30.0.1)(vite@8.2.2(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0))
 
-  '@intuitui-labs/editorial@https://codeload.github.com/NeevSK/editorial/tar.gz/c80e20d1277c2bccc2a43e5bb9129048be156f8b': {}
+  '@intuitui-labs/editorial@0.1.1':
+    dependencies:
+      zod: 4.6.5
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -4599,5 +4603,7 @@ snapshots:
   zimmerframe@1.1.4: {}
 
   zod@4.4.3: {}
+
+  zod@4.6.5: {}
 
   zwitch@2.0.4: {}

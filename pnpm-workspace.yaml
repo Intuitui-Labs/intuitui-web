@@ -4,3 +4,5 @@ minimumReleaseAgeExclude:
   - '@vitest/mocker@5.0.0'
   - '@vitest/spy@5.0.0'
   - vitest@5.0.0
+  - '@intuitui-labs/a11y-gate@0.2.0'
+  - '@intuitui-labs/editorial@0.1.1'
