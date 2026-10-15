@@ -1,77 +1,169 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { publicProjects } from '../lib/projects';
+import { developerProjects, productProjects, initiativeProjects, publicProjects } from '../lib/projects';
+import { PUBLIC_URLS } from '../lib/site';
 
-const featuredProject = publicProjects.find((project) => project.featured) ?? publicProjects[0];
-const sensemakingProjects = publicProjects.filter((project) => project.status === 'sensemaking');
-const seeingProjects = publicProjects.filter((project) => project.status === 'seeing');
+const featuredProduct = productProjects.find((p) => p.featured) ?? productProjects[0];
 ---
 
-<MainLayout title="Projects | Intuitui Labs" theme="projects">
+<MainLayout title="Tangible Systems & Constellation | Intuitui Labs" theme="projects">
 	<div class="max-w-7xl mx-auto space-y-24 sm:space-y-32">
 		<!-- Header -->
 		<header class="max-w-4xl space-y-6">
 			<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border-2 border-slate-900 bg-white w-fit shadow-xs">
-				<p class="font-mono text-sm font-bold text-slate-950 uppercase tracking-wider">Work in the constellation</p>
+				<p class="font-mono text-sm font-bold text-slate-950 uppercase tracking-wider">The Living Constellation</p>
 			</div>
 			<h1 class="text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-[0.92] text-slate-950">
 				Ideas made tangible.
 			</h1>
 			<p class="measure-optimal text-2xl text-slate-800 font-medium leading-relaxed">
-				Intuitui Labs gives philosophy and sensemaking practical form — through systems, platforms, experiments, and living tools.
+				Intuitui Labs gives philosophy and systems thinking practical form across three distinct pillars: Open Source Developer Tooling, Collaborative Products, and Autonomous Studio Initiatives.
 			</p>
+			<div class="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs font-bold">
+				<a href="#pillar-dev" class="px-3.5 py-2 rounded-lg bg-slate-950 text-white hover:bg-slate-800">
+					01 · Developer & OSS ({developerProjects.length})
+				</a>
+				<a href="#pillar-products" class="px-3.5 py-2 rounded-lg border-2 border-slate-900 bg-white text-slate-900 hover:bg-slate-50">
+					02 · Collaborative Products ({productProjects.length})
+				</a>
+				<a href="#pillar-initiatives" class="px-3.5 py-2 rounded-lg border-2 border-slate-900 bg-white text-slate-900 hover:bg-slate-50">
+					03 · Studio Initiatives ({initiativeProjects.length})
+				</a>
+			</div>
 		</header>
 
-		<!-- Featured Showcase (Stage 04 Active) -->
-		<section class="space-y-8" aria-labelledby="showcase-heading">
-			<div class="flex items-end justify-between border-b-2 border-slate-900 pb-4">
+		<!-- PILLAR 1: DEVELOPER & OPEN SOURCE PROGRAM -->
+		<section id="pillar-dev" class="space-y-10 scroll-mt-28" aria-labelledby="pillar-dev-heading">
+			<div class="flex flex-wrap items-end justify-between border-b-2 border-slate-900 pb-4 gap-4">
 				<div>
-					<p class="mono-label mb-1">Featured Expression</p>
-					<h2 id="showcase-heading" class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
-						Current Showcase
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-sky-950 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+						<span>Pillar 01</span>
+						<span>·</span>
+						<span>Engineering & Open Tooling</span>
+					</div>
+					<h2 id="pillar-dev-heading" class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
+						Developer Ecosystem & OSS Program
 					</h2>
 				</div>
-				<span class="text-sm font-mono font-bold text-slate-700">
-					{String(publicProjects.length).padStart(2, '0')} // REGISTERED
+				<div class="flex items-center gap-3 font-mono text-xs font-bold">
+					<a href="/docs" class="text-sky-700 hover:underline">
+						Read Developer Docs →
+					</a>
+				</div>
+			</div>
+
+			<!-- Packages Grid -->
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{developerProjects.map((project) => (
+					<article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-4 hover:shadow-md transition-shadow flex flex-col justify-between" aria-labelledby={`title-${project.slug}`}>
+						<div class="space-y-3">
+							<div class="flex items-center justify-between gap-2">
+								<span class="px-2.5 py-1 rounded-md bg-sky-950 text-sky-100 font-mono text-xs font-bold">
+									{project.statusLabel}
+								</span>
+								{project.npmPackage && (
+									<span class="font-mono text-xs text-sky-800 truncate max-w-[150px]">
+										{project.npmPackage}
+									</span>
+								)}
+							</div>
+
+							<h3 id={`title-${project.slug}`} class="text-2xl font-bold tracking-tight text-slate-950">
+								<a href={`/projects/${project.slug}`} class="hover:text-sky-700 underline underline-offset-4">
+									{project.name}
+								</a>
+							</h3>
+
+							<p class="mono-label text-sky-800">{project.eyebrow}</p>
+							
+							<p class="text-sm text-slate-700 leading-relaxed">
+								{project.description}
+							</p>
+						</div>
+
+						<div class="pt-4 border-t border-slate-200 space-y-3">
+							{project.installSnippet && (
+								<div class="bg-slate-950 text-slate-200 p-2.5 rounded-lg font-mono text-xs overflow-x-auto">
+									<code>{project.installSnippet}</code>
+								</div>
+							)}
+							<div class="flex items-center justify-between pt-1 text-xs font-mono font-bold">
+								{project.docsHref ? (
+									<a href={project.docsHref} class="text-sky-700 hover:underline">
+										Docs →
+									</a>
+								) : (
+									<a href={`/projects/${project.slug}`} class="text-sky-700 hover:underline">
+										Overview →
+									</a>
+								)}
+								{project.githubRepo && (
+									<a href={project.githubRepo} target="_blank" rel="noreferrer" class="text-slate-600 hover:text-slate-950">
+										GitHub ↗
+									</a>
+								)}
+							</div>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- PILLAR 2: COLLABORATIVE PRODUCTS (WITH EDLOVE) -->
+		<section id="pillar-products" class="space-y-10 scroll-mt-28" aria-labelledby="pillar-products-heading">
+			<div class="flex flex-wrap items-end justify-between border-b-2 border-slate-900 pb-4 gap-4">
+				<div>
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+						<span>Pillar 02</span>
+						<span>·</span>
+						<span>In Collaboration with EdLove</span>
+					</div>
+					<h2 id="pillar-products-heading" class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
+						Living Products & Educational Sanctuaries
+					</h2>
+				</div>
+				<span class="font-mono text-xs font-bold text-slate-600">
+					{productProjects.length} PLATFORMS
 				</span>
 			</div>
 
-			{featuredProject && (
-				<article class="systems-card overflow-hidden grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] bg-white" aria-labelledby="featured-project-title">
-					<div class="min-h-80 md:min-h-[32rem] bg-slate-950 text-white relative overflow-hidden flex items-end p-8 md:p-12 border-b-2 md:border-b-0 md:border-r-2 border-slate-950">
+			<!-- Featured Product Showcase (Gurudevi) -->
+			{featuredProduct && (
+				<article class="systems-card overflow-hidden grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] bg-white border-2 border-slate-900 rounded-3xl" aria-labelledby="featured-product-title">
+					<div class="min-h-80 md:min-h-[28rem] bg-slate-950 text-white relative overflow-hidden flex items-end p-8 md:p-12 border-b-2 md:border-b-0 md:border-r-2 border-slate-950">
 						<div class="absolute inset-0 systems-grid opacity-25" aria-hidden="true"></div>
 						<div class="absolute -right-20 -top-20 w-88 h-88 rounded-full border-2 border-sky-400/40" aria-hidden="true"></div>
 						<div class="absolute right-1/4 top-1/3 w-4 h-4 rounded-full bg-sky-400" aria-hidden="true"></div>
 
 						<div class="relative space-y-4">
-							<span class="px-3.5 py-1.5 rounded-md bg-sky-900 text-sky-200 border-2 border-sky-400 font-mono text-xs font-black uppercase tracking-wider">
-								{featuredProject.statusLabel}
+							<span class="px-3.5 py-1.5 rounded-md bg-emerald-900 text-emerald-200 border border-emerald-400 font-mono text-xs font-black uppercase tracking-wider">
+								{featuredProduct.statusLabel} · Co-created with EdLove
 							</span>
-							<h3 id="featured-project-title" class="text-6xl sm:text-7xl font-black tracking-tighter text-white">
-								{featuredProject.name}
+							<h3 id="featured-product-title" class="text-6xl sm:text-7xl font-black tracking-tighter text-white">
+								{featuredProduct.name}
 							</h3>
 						</div>
 					</div>
 
 					<div class="flex flex-col justify-between gap-8 p-8 md:p-12 bg-white">
 						<div class="space-y-4">
-							<p class="mono-label text-sky-800">{featuredProject.eyebrow}</p>
+							<p class="mono-label text-emerald-800">{featuredProduct.eyebrow}</p>
 							<h4 class="text-3xl font-black tracking-tight text-slate-950">
-								{featuredProject.relation}
+								{featuredProduct.relation}
 							</h4>
 							<p class="text-lg text-slate-800 font-medium leading-relaxed">
-								{featuredProject.description}
+								{featuredProduct.description}
 							</p>
 							<div class="pt-2">
 								<span class="inline-block px-3.5 py-1.5 rounded-lg bg-slate-100 border border-slate-300 text-sm font-mono font-bold text-slate-950">
-									{featuredProject.category}
+									{featuredProduct.category}
 								</span>
 							</div>
 						</div>
 
-						{featuredProject.links && featuredProject.links.length > 0 && (
-							<nav class="flex flex-wrap gap-4 pt-6 border-t-2 border-slate-200" aria-label={`${featuredProject.name} links`}>
-								{featuredProject.links.map((link) => (
+						{featuredProduct.links && featuredProduct.links.length > 0 && (
+							<nav class="flex flex-wrap gap-4 pt-6 border-t-2 border-slate-200" aria-label={`${featuredProduct.name} destinations`}>
+								{featuredProduct.links.map((link) => (
 									<a
 										class="touch-target tactile-press px-6 py-3 rounded-xl bg-slate-950 text-white font-bold text-base hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-xs border-2 border-slate-950"
 										href={link.href}
@@ -87,105 +179,96 @@ const seeingProjects = publicProjects.filter((project) => project.status === 'se
 					</div>
 				</article>
 			)}
+
+			<!-- Other Products in Pillar 2 -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+				{productProjects.filter((p) => p.slug !== featuredProduct.slug).map((project) => (
+					<article class="p-8 rounded-2xl border-2 border-slate-900 bg-white space-y-4 flex flex-col justify-between">
+						<div class="space-y-3">
+							<span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-950 font-mono text-xs font-bold">
+								{project.statusLabel}
+							</span>
+							<h3 class="text-3xl font-bold tracking-tight text-slate-950">
+								<a href={`/projects/${project.slug}`} class="hover:text-emerald-800 underline underline-offset-4">
+									{project.name}
+								</a>
+							</h3>
+							<p class="mono-label text-emerald-800">{project.eyebrow}</p>
+							<p class="text-base text-slate-700 leading-relaxed">
+								{project.description}
+							</p>
+						</div>
+						<div class="pt-4 border-t border-slate-200 flex items-center justify-between font-mono text-xs font-bold">
+							<a href={`/projects/${project.slug}`} class="text-emerald-800 hover:underline">
+								Project Details →
+							</a>
+							{project.href && (
+								<a href={project.href} target="_blank" rel="noreferrer" class="text-slate-600 hover:text-slate-950">
+									Destination ↗
+								</a>
+							)}
+						</div>
+					</article>
+				))}
+			</div>
 		</section>
 
-		<!-- Stage 02: Sensemaking -->
-		{sensemakingProjects.length > 0 && (
-			<section class="space-y-8" aria-labelledby="sensemaking-heading">
-				<div class="flex items-end justify-between border-b-2 border-slate-900 pb-4">
-					<div>
-						<p class="mono-label mb-1">Maturity Phase</p>
-						<h2 id="sensemaking-heading" class="text-3xl font-black tracking-tight text-slate-950">
-							Stage 02 · Sensemaking
-						</h2>
+		<!-- PILLAR 3: AUTONOMOUS STUDIO INITIATIVES -->
+		<section id="pillar-initiatives" class="space-y-10 scroll-mt-28" aria-labelledby="pillar-initiatives-heading">
+			<div class="flex flex-wrap items-end justify-between border-b-2 border-slate-900 pb-4 gap-4">
+				<div>
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+						<span>Pillar 03</span>
+						<span>·</span>
+						<span>Regeneration, Ecology & Sanctuary</span>
 					</div>
-					<span class="text-sm font-mono font-bold text-slate-700">
-						{String(sensemakingProjects.length).padStart(2, '0')} // FORMING
-					</span>
+					<h2 id="pillar-initiatives-heading" class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
+						Autonomous Studio Initiatives
+					</h2>
 				</div>
+				<span class="font-mono text-xs font-bold text-slate-600">
+					{initiativeProjects.length} EXPLORATIONS
+				</span>
+			</div>
 
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-					{sensemakingProjects.map((project) => (
-						<article class="systems-card p-8 border-t-6 border-t-emerald-700 space-y-5 flex flex-col justify-between bg-white" aria-labelledby={`project-${project.slug}`}>
-							<div class="space-y-4">
-								<div class="flex items-center justify-between gap-4">
-									<h3 id={`project-${project.slug}`} class="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 hover:text-sky-700 transition-colors">
-										<a href={`/projects/${project.slug}`}>{project.name}</a>
-									</h3>
-									<span class="px-3 py-1 rounded-md border border-emerald-700 bg-emerald-50 text-emerald-950 font-mono text-xs font-black uppercase">
-										{project.statusLabel}
-									</span>
-								</div>
-								<p class="text-base text-slate-800 font-medium leading-relaxed">
-									{project.description}
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				{initiativeProjects.map((project) => (
+					<article class="p-8 rounded-2xl border-2 border-slate-900 bg-white space-y-5 flex flex-col justify-between" aria-labelledby={`title-${project.slug}`}>
+						<div class="space-y-3">
+							<div class="flex items-center gap-2">
+								<span class="w-2.5 h-2.5 rounded-full bg-amber-500" aria-hidden="true"></span>
+								<p class="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider">
+									{project.statusLabel} · {project.category}
 								</p>
 							</div>
 
-							<div class="flex items-center justify-between pt-4 border-t border-slate-200">
-								<span class="text-sm font-mono font-bold text-slate-600">
-									{project.category}
-								</span>
-								<a href={`/projects/${project.slug}`} class="touch-target text-sm font-mono font-extrabold text-slate-950 hover:text-sky-700 underline underline-offset-4">
-									View Details →
+							<h3 id={`title-${project.slug}`} class="text-3xl font-black tracking-tight text-slate-950">
+								<a href={`/projects/${project.slug}`} class="hover:text-amber-800 underline underline-offset-4">
+									{project.name}
+								</a>
+							</h3>
+
+							<p class="mono-label text-slate-800">{project.eyebrow}</p>
+							
+							<p class="text-base text-slate-700 leading-relaxed font-normal">
+								{project.description}
+							</p>
+						</div>
+
+						<div class="pt-6 border-t border-slate-200 space-y-3">
+							<div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+								<p class="font-mono text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Maturity Note</p>
+								<p class="text-xs text-slate-700 leading-relaxed">{project.stageNote}</p>
+							</div>
+							<div class="flex items-center justify-between pt-2 font-mono text-xs font-bold">
+								<a href={`/projects/${project.slug}`} class="text-slate-950 hover:underline">
+									Explore Initiative Premise →
 								</a>
 							</div>
-						</article>
-					))}
-				</div>
-			</section>
-		)}
-
-		<!-- Stage 01: Seeing -->
-		{seeingProjects.length > 0 && (
-			<section class="space-y-8" aria-labelledby="seeing-heading">
-				<div class="flex items-end justify-between border-b-2 border-slate-900 pb-4">
-					<div>
-						<p class="mono-label mb-1">Observation Phase</p>
-						<h2 id="seeing-heading" class="text-3xl font-black tracking-tight text-slate-950">
-							Stage 01 · Seeing
-						</h2>
-					</div>
-					<span class="text-sm font-mono font-bold text-slate-700">
-						{String(seeingProjects.length).padStart(2, '0')} // OBSERVING
-					</span>
-				</div>
-
-				<div class="divide-y-2 divide-slate-200 border-y-2 border-slate-900">
-					{seeingProjects.map((project) => (
-						<article class="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-6 py-8 items-center" aria-labelledby={`project-seeing-${project.slug}`}>
-							<div class="space-y-2">
-								<div class="flex items-center gap-3">
-									<h3 id={`project-seeing-${project.slug}`} class="text-2xl font-black tracking-tight text-slate-950 group-hover:text-sky-700 transition-colors">
-										<a href={`/projects/${project.slug}`}>{project.name}</a>
-									</h3>
-									<span class="px-2.5 py-0.5 rounded-md border border-slate-400 bg-slate-100 text-slate-900 font-mono text-xs font-bold uppercase">
-										{project.statusLabel}
-									</span>
-								</div>
-								<p class="measure-optimal text-base text-slate-800 font-medium">
-									{project.description}
-								</p>
-							</div>
-							<div class="flex items-center gap-6">
-								<span class="text-sm font-mono font-bold text-slate-600">
-									{project.category}
-								</span>
-								<a href={`/projects/${project.slug}`} class="touch-target text-sm font-mono font-extrabold text-slate-950 hover:text-sky-700 underline underline-offset-4" aria-label={`Read notes on ${project.name}`}>
-									Notes →
-								</a>
-							</div>
-						</article>
-					))}
-				</div>
-			</section>
-		)}
-
-		<!-- Discretionary Statement -->
-		<div class="p-8 rounded-2xl border-2 border-slate-900 bg-white max-w-2xl shadow-xs space-y-2">
-			<p class="mono-label text-slate-950">Studio Discretion</p>
-			<p class="text-base text-slate-800 font-medium leading-relaxed">
-				More work will appear here as it achieves public clarity. The constellation is deliberately curated: exploratory sensemaking remains internal until a grounded form is ready.
-			</p>
-		</div>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
 	</div>
 </MainLayout>

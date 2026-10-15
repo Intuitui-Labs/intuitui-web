@@ -8,28 +8,46 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+
+const pillarLabel = {
+	'developer-oss': 'Pillar 01 · Developer Ecosystem & OSS Program',
+	'collaborative-products': 'Pillar 02 · Collaborative Products',
+	'studio-initiatives': 'Pillar 03 · Autonomous Studio Initiatives',
+}[project.pillar];
 ---
 
 <MainLayout
 	title={`${project.name} | Intuitui Labs`}
 	theme="projects"
 	publishedDate="2026-08-29T17:53:12+05:30"
-	updatedDate="2026-08-29T17:53:12+05:30"
+	updatedDate="2026-10-11T18:00:00+05:30"
 >
-	<article class="max-w-4xl space-y-20 sm:space-y-28">
+	<article class="max-w-4xl space-y-16 sm:space-y-24">
 		<!-- Navigation & Header -->
 		<header class="space-y-8">
 			<a class="inline-flex items-center gap-2 text-sm font-mono font-semibold text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target" href="/projects">
 				<span aria-hidden="true">←</span>
-				<span>All Projects & Constellations</span>
+				<span>Back to All Constellations</span>
 			</a>
 			
 			<div class="space-y-4">
-				<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-border bg-brand-surface w-fit">
-					<span class="w-2 h-2 rounded-full bg-sky-600" aria-hidden="true"></span>
-					<p class="mono-label">{project.statusLabel} · {project.category}</p>
+				<div class="flex flex-wrap items-center gap-2">
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-border bg-brand-surface w-fit">
+						<span class="w-2 h-2 rounded-full bg-sky-600" aria-hidden="true"></span>
+						<p class="mono-label">{project.statusLabel} · {project.category}</p>
+					</div>
+					{project.collaborationPartner && (
+						<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-mono text-xs font-bold">
+							<span>In Collaboration with {project.collaborationPartner}</span>
+						</div>
+					)}
 				</div>
-				<h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.92] text-brand-primary">
+
+				<p class="font-mono text-xs font-bold uppercase tracking-wider text-slate-500">
+					{pillarLabel}
+				</p>
+
+				<h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-[0.92] text-brand-primary">
 					{project.name}
 				</h1>
 				<p class="measure-optimal text-2xl text-brand-secondary font-normal leading-relaxed">
@@ -37,6 +55,44 @@ const { project } = Astro.props;
 				</p>
 			</div>
 		</header>
+
+		<!-- Developer & NPM Package Quick Actions (if applicable) -->
+		{project.npmPackage && (
+			<section class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-4 shadow-sm" aria-label="Package installation and links">
+				<div class="flex flex-wrap items-center justify-between gap-3">
+					<div class="flex items-center gap-2 font-mono text-sm font-bold text-slate-900">
+						<span class="px-2.5 py-1 rounded-md bg-sky-950 text-white text-xs">npm</span>
+						<code>{project.npmPackage}</code>
+					</div>
+					<div class="flex items-center gap-3 font-mono text-xs font-bold">
+						{project.docsHref && (
+							<a
+								href={project.docsHref}
+								class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition-colors shadow-2xs"
+							>
+								Read Documentation →
+							</a>
+						)}
+						{project.githubRepo && (
+							<a
+								href={project.githubRepo}
+								target="_blank"
+								rel="noreferrer"
+								class="px-3.5 py-2 rounded-lg border border-slate-300 hover:border-slate-900 text-slate-800 transition-colors"
+							>
+								GitHub ↗
+							</a>
+						)}
+					</div>
+				</div>
+
+				{project.installSnippet && (
+					<div class="bg-slate-950 text-slate-200 p-3 rounded-xl font-mono text-xs overflow-x-auto border border-slate-800">
+						<code>{project.installSnippet}</code>
+					</div>
+				)}
+			</section>
+		)}
 
 		<!-- The Premise -->
 		<section class="grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr] gap-8 md:gap-16 border-t border-brand-border pt-8" aria-labelledby="premise-heading">
@@ -87,10 +143,10 @@ const { project } = Astro.props;
 		<ProvenanceColophon
 			author="Intuitui Labs Systems Team"
 			publishDate="2026-08-29T17:53:12+05:30"
-			updatedDate="2026-08-29T17:53:12+05:30"
+			updatedDate="2026-10-11T18:00:00+05:30"
 			cadence="living-document"
-			canonicalUrl={`https://intuituilabs.edlove.org/projects/${project.slug}`}
-			version="v1.0"
+			canonicalUrl={`https://intuituilabs.studio/projects/${project.slug}`}
+			version="v2.0"
 			class="pt-8"
 		/>
 	</article>
