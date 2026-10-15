@@ -1,0 +1,218 @@
+---
+import MainLayout from './MainLayout.astro';
+import ProvenanceColophon from '../components/ProvenanceColophon.astro';
+import { getDocSections, type DocItem } from '../lib/docs';
+import { PUBLIC_URLS } from '../lib/site';
+
+interface Props {
+  currentDoc?: DocItem;
+  title?: string;
+  description?: string;
+}
+
+const { currentDoc, title, description } = Astro.props;
+
+const sections = getDocSections();
+const pageTitle = title || (currentDoc ? `${currentDoc.title} | Docs` : 'Documentation | Intuitui Labs');
+const pageDesc = description || currentDoc?.description || 'Official engineering and systems documentation for Intuitui Labs.';
+const headings = currentDoc ? currentDoc.getHeadings().filter((h) => h.depth === 2 || h.depth === 3) : [];
+const currentSlug = currentDoc?.slug || '';
+---
+
+<MainLayout title={pageTitle} description={pageDesc} theme="default">
+  <div class="max-w-7xl mx-auto">
+    <!-- Breadcrumb Bar & Mobile Docs Menu Button -->
+    <div class="flex items-center justify-between gap-4 py-4 mb-6 border-b border-brand-border">
+      <nav class="flex items-center gap-2 text-xs sm:text-sm font-mono text-brand-muted" aria-label="Breadcrumb">
+        <a href="/docs" class="hover:text-brand-primary underline underline-offset-4">Docs</a>
+        {currentDoc && (
+          <>
+            <span aria-hidden="true">/</span>
+            <span class="text-brand-secondary font-semibold">{currentDoc.section}</span>
+            <span aria-hidden="true">/</span>
+            <span class="text-brand-primary font-bold truncate max-w-[200px] sm:max-w-xs">{currentDoc.title}</span>
+          </>
+        )}
+      </nav>
+
+      <button
+        type="button"
+        id="docs-mobile-sidebar-toggle"
+        class="lg:hidden px-3 py-1.5 rounded-lg border-2 border-brand-border bg-white text-xs font-mono font-bold text-brand-primary shadow-xs hover:bg-slate-50 transition-colors"
+        aria-expanded="false"
+        aria-controls="docs-sidebar"
+      >
+        Menu / Index
+      </button>
+    </div>
+
+    <!-- 3-Column Docs Layout Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-[17rem_minmax(0,1fr)] xl:grid-cols-[17rem_minmax(0,1fr)_14rem] gap-10 items-start">
+      <!-- Left Sidebar: Documentation Hierarchy -->
+      <aside
+        id="docs-sidebar"
+        class="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pr-4 space-y-8 text-sm"
+        aria-label="Documentation navigation"
+      >
+        <div class="space-y-1 pb-4 border-b border-brand-border">
+          <a
+            href="/docs"
+            class={`block px-3 py-2 rounded-lg font-bold transition-colors ${
+              currentSlug === '' ? 'bg-brand-primary text-white shadow-xs' : 'text-brand-primary hover:bg-slate-100'
+            }`}
+          >
+            ← Docs Home & Overview
+          </a>
+        </div>
+
+        {sections.map((section) => (
+          <div class="space-y-2">
+            <h2 class="font-mono text-xs font-extrabold uppercase tracking-wider text-brand-muted px-3">
+              {section.title}
+            </h2>
+            <ul class="space-y-1">
+              {section.items.map((item) => {
+                const isActive = item.slug === currentSlug;
+                return (
+                  <li>
+                    <a
+                      href={`/docs/${item.slug}`}
+                      class={`block px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        isActive
+                          ? 'bg-sky-50 text-sky-950 font-bold border-l-4 border-sky-600 shadow-2xs'
+                          : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100/80'
+                      }`}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      <span class="truncate block">{item.title}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+
+        <div class="pt-6 border-t border-brand-border space-y-2 px-3 text-xs font-mono text-brand-muted">
+          <p class="font-bold text-slate-800 uppercase tracking-wider">External Destinations</p>
+          <ul class="space-y-1.5">
+            <li>
+              <a href={PUBLIC_URLS.githubOrg} target="_blank" rel="noreferrer" class="hover:text-brand-primary flex items-center justify-between">
+                <span>GitHub Org</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a href={PUBLIC_URLS.npmOrg} target="_blank" rel="noreferrer" class="hover:text-brand-primary flex items-center justify-between">
+                <span>npm @intuitui-labs</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Center: Main Document Content -->
+      <article class="min-w-0 max-w-4xl space-y-10">
+        <!-- Package Badges Bar (if package metadata exists) -->
+        {currentDoc?.frontmatter?.npmPackage && (
+          <header class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-4 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-sky-950 text-sky-200 font-mono text-xs font-bold">
+                  npm package
+                </span>
+                <span class="font-mono text-sm font-bold text-slate-900">
+                  {currentDoc.frontmatter.npmPackage}
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                {currentDoc.frontmatter.githubRepo && (
+                  <a
+                    href={currentDoc.frontmatter.githubRepo}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="px-3 py-1 rounded-lg border border-slate-300 hover:border-slate-900 font-mono text-xs font-semibold text-slate-800 transition-colors flex items-center gap-1.5"
+                  >
+                    <span>GitHub</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+                <a
+                  href={`https://www.npmjs.com/package/${currentDoc.frontmatter.npmPackage}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="px-3 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-mono text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs"
+                >
+                  <span>npm Registry</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Install Snippet Box -->
+            <div class="relative bg-slate-950 text-slate-100 rounded-xl p-3.5 font-mono text-xs sm:text-sm flex items-center justify-between overflow-x-auto border border-slate-800">
+              <code>
+                {currentDoc.frontmatter.installSnippet || `pnpm add ${currentDoc.frontmatter.npmPackage}`}
+              </code>
+            </div>
+          </header>
+        )}
+
+        <!-- Main Body slot or Content -->
+        <div class="prose max-w-none text-brand-secondary space-y-6">
+          <slot />
+        </div>
+
+        <!-- Provenance & Colophon -->
+        <ProvenanceColophon
+          author={currentDoc?.frontmatter?.author || "Intuitui Labs Systems Team"}
+          publishDate={currentDoc?.frontmatter?.created || "2026-10-11"}
+          updatedDate={currentDoc?.frontmatter?.updated || "2026-10-11"}
+          cadence="living-document"
+          canonicalUrl={`https://intuituilabs.studio/docs/${currentSlug}`}
+          version={currentDoc?.frontmatter?.version || "v1.0"}
+          class="pt-12 border-t border-brand-border"
+        />
+      </article>
+
+      <!-- Right Sidebar: On This Page Table of Contents -->
+      {headings.length > 0 && (
+        <aside class="hidden xl:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pl-4 space-y-3 text-xs" aria-label="Table of contents">
+          <p class="font-mono font-bold uppercase tracking-wider text-slate-900">On this page</p>
+          <ul class="space-y-2 border-l border-brand-border pl-3">
+            {headings.map((heading) => (
+              <li class={heading.depth === 3 ? 'ml-2' : ''}>
+                <a
+                  href={`#${heading.slug}`}
+                  class="text-slate-600 hover:text-sky-700 transition-colors block py-0.5 line-clamp-2"
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+    </div>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('docs-mobile-sidebar-toggle');
+    const sidebar = document.getElementById('docs-sidebar');
+    if (toggleBtn && sidebar) {
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = sidebar.classList.contains('hidden');
+        if (isHidden) {
+          sidebar.classList.remove('hidden');
+          sidebar.classList.add('fixed', 'inset-0', 'z-40', 'bg-white', 'p-6', 'pt-24');
+          toggleBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          sidebar.classList.add('hidden');
+          sidebar.classList.remove('fixed', 'inset-0', 'z-40', 'bg-white', 'p-6', 'pt-24');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  </script>
+</MainLayout>

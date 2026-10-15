@@ -14,6 +14,7 @@ import {
   BRAND_TAGLINE,
   BRAND_EMOJI_TAGLINE,
   SOCIAL_LINKS,
+  PUBLIC_URLS,
 } from '../lib/site';
 
 interface Props {
@@ -124,6 +125,7 @@ const navItems = [
   { href: '/about', label: 'About' },
   { href: '/about/team', label: 'Team' },
   { href: '/projects', label: 'Projects' },
+  { href: '/docs', label: 'Docs' },
   { href: '/studio', label: 'Studio' },
   ...(import.meta.env.DEV ? [{ href: '/a11y', label: 'A11y (Dev)', badge: 'DEV' }] : []),
 ];
@@ -314,6 +316,7 @@ const navItems = [
 						<li><a href="/about" class="hover:text-sky-700 transition-colors">About the Studio</a></li>
 						<li><a href="/about/team" class="hover:text-sky-700 transition-colors">Team & Constellation</a></li>
 						<li><a href="/projects" class="hover:text-sky-700 transition-colors">Tangible Systems</a></li>
+						<li><a href="/docs" class="hover:text-sky-700 transition-colors font-semibold text-sky-800">Developer & System Docs</a></li>
 						<li><a href="/studio" class="hover:text-sky-700 transition-colors">Studio & Operating Model</a></li>
 					</ul>
 					{import.meta.env.DEV && (
@@ -326,19 +329,16 @@ const navItems = [
 				</div>
 
 				<div class="md:text-right flex flex-col justify-between">
-					{SOCIAL_LINKS.length > 0 ? (
-						<nav class="flex md:justify-end gap-4 mb-4 text-xs font-mono" aria-label="Social links">
-							{SOCIAL_LINKS.map((link) => (
-								<a class="text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target" href={link.href} target="_blank" rel="noreferrer">
-									{link.label}
-								</a>
-							))}
-						</nav>
-					) : (
-						<div class="mb-4">
-							<p class="text-xs text-brand-muted font-mono">Neev Foundation Subsidiary</p>
-						</div>
-					)}
+					<div class="mb-4 flex flex-wrap md:justify-end gap-3 text-xs font-mono">
+						<a class="text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target flex items-center gap-1" href={PUBLIC_URLS.githubOrg} target="_blank" rel="noreferrer">
+							<span>GitHub Org</span>
+							<span aria-hidden="true">↗</span>
+						</a>
+						<a class="text-brand-secondary hover:text-brand-primary underline underline-offset-4 touch-target flex items-center gap-1" href={PUBLIC_URLS.npmOrg} target="_blank" rel="noreferrer">
+							<span>npm @intuitui-labs</span>
+							<span aria-hidden="true">↗</span>
+						</a>
+					</div>
 					<div>
 						<p class="mono-label">Intuitui Labs © 2026</p>
 						<p class="text-xs text-brand-muted mt-1 font-mono">Colombo · Sri Lanka</p>

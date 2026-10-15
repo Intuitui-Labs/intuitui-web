@@ -1,0 +1,247 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { developerProjects } from '../../lib/projects';
+import { PUBLIC_URLS } from '../../lib/site';
+---
+
+<DocsLayout
+  title="Developer Documentation & Systems Knowledge | Intuitui Labs"
+  description="Official developer documentation, package references, and architecture blueprints across the Intuitui Labs ecosystem."
+>
+  <div class="space-y-16">
+    <!-- Hero / Title -->
+    <header class="space-y-6">
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-sky-800/30 bg-sky-50 text-sky-900 font-mono text-xs font-bold uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse" aria-hidden="true"></span>
+        <span>Developer & OSS Knowledge Hub</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 leading-tight">
+        Systems engineered with rigor, crafted for people.
+      </h1>
+
+      <p class="text-xl text-slate-700 leading-relaxed max-w-3xl">
+        This is the central technical documentation portal for Intuitui Labs packages, developer telemetry tools, and architectural blueprints. Built for developers, AI coding agents, and system researchers.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs font-bold">
+        <a
+          href={PUBLIC_URLS.githubOrg}
+          target="_blank"
+          rel="noreferrer"
+          class="px-4 py-2.5 rounded-xl bg-slate-950 text-white hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-xs"
+        >
+          <span>Explore GitHub Org</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href={PUBLIC_URLS.npmOrg}
+          target="_blank"
+          rel="noreferrer"
+          class="px-4 py-2.5 rounded-xl border-2 border-slate-900 bg-white text-slate-950 hover:bg-slate-50 transition-colors flex items-center gap-2 shadow-xs"
+        >
+          <span>npm @intuitui-labs</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Core Engineering Packages Grid -->
+    <section class="space-y-6" aria-labelledby="packages-heading">
+      <div class="flex items-end justify-between border-b-2 border-slate-900 pb-3">
+        <div>
+          <p class="font-mono text-xs font-bold uppercase tracking-wider text-slate-600">Pillar 1</p>
+          <h2 id="packages-heading" class="text-2xl sm:text-3xl font-black text-slate-950">
+            Published Packages & Engines
+          </h2>
+        </div>
+        <span class="font-mono text-xs font-bold text-slate-600">
+          {developerProjects.length} AVAILABLE
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {developerProjects.map((pkg) => (
+          <article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-4 hover:shadow-md transition-shadow flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-slate-100 font-mono text-xs font-bold text-slate-800">
+                  {pkg.statusLabel}
+                </span>
+                {pkg.npmPackage && (
+                  <span class="font-mono text-xs text-sky-800 truncate max-w-[180px]">
+                    {pkg.npmPackage}
+                  </span>
+                )}
+              </div>
+
+              <h3 class="text-2xl font-bold tracking-tight text-slate-950">
+                <a href={pkg.docsHref || `/projects/${pkg.slug}`} class="hover:text-sky-700 underline underline-offset-4">
+                  {pkg.name}
+                </a>
+              </h3>
+
+              <p class="text-sm text-slate-700 leading-relaxed">
+                {pkg.description}
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 space-y-3">
+              {pkg.installSnippet && (
+                <div class="bg-slate-950 text-slate-200 p-2.5 rounded-lg font-mono text-xs overflow-x-auto">
+                  <code>{pkg.installSnippet}</code>
+                </div>
+              )}
+              <div class="flex items-center justify-between pt-1 text-xs font-mono font-bold">
+                <a href={pkg.docsHref || `/projects/${pkg.slug}`} class="text-sky-700 hover:underline flex items-center gap-1">
+                  <span>View Full Documentation</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+                {pkg.githubRepo && (
+                  <a href={pkg.githubRepo} target="_blank" rel="noreferrer" class="text-slate-600 hover:text-slate-950">
+                    GitHub ↗
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Architecture & Standards Guides -->
+    <section class="space-y-6" aria-labelledby="guides-heading">
+      <div class="border-b-2 border-slate-900 pb-3">
+        <p class="font-mono text-xs font-bold uppercase tracking-wider text-slate-600">Pillar Standards</p>
+        <h2 id="guides-heading" class="text-2xl sm:text-3xl font-black text-slate-950">
+          Architecture Blueprints & Operating Standards
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-sans">
+        <a
+          href="/docs/architecture/master-ecosystem-landscape"
+          class="p-5 rounded-xl border border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 transition-all space-y-2 block"
+        >
+          <span class="font-mono text-xs font-bold text-sky-800">Topology</span>
+          <h4 class="font-bold text-base text-slate-900">Ecosystem Landscape & Package Topology</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Repository boundaries, subpath exports, and catalog dependencies.</p>
+        </a>
+
+        <a
+          href="/docs/architecture/accessibility-gates"
+          class="p-5 rounded-xl border border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 transition-all space-y-2 block"
+        >
+          <span class="font-mono text-xs font-bold text-sky-800">Accessibility</span>
+          <h4 class="font-bold text-base text-slate-900">Quantitative Accessibility Gates</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">W3C APCA 0.98G contrast formulas, CVD matrices, and 8px grid discipline.</p>
+        </a>
+
+        <a
+          href="/docs/docs-sop"
+          class="p-5 rounded-xl border border-slate-300 hover:border-slate-900 bg-white hover:bg-slate-50 transition-all space-y-2 block"
+        >
+          <span class="font-mono text-xs font-bold text-sky-800">Standards</span>
+          <h4 class="font-bold text-base text-slate-900">Documentation Standard Operating Procedure</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Frontmatter requirements, ADR lifecycle, and dual-naming protocols.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Studio Initiatives & Sanctuaries Dossiers -->
+    <section class="space-y-6" aria-labelledby="initiatives-heading">
+      <div class="border-b-2 border-slate-900 pb-3">
+        <p class="font-mono text-xs font-bold uppercase tracking-wider text-slate-600">Pillar 03</p>
+        <h2 id="initiatives-heading" class="text-2xl sm:text-3xl font-black text-slate-950">
+          Studio Initiatives & Sanctuary Dossiers
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 font-sans">
+        <article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-950 font-mono text-xs font-bold">
+              Ecology & Material Cycles
+            </span>
+            <h3 class="text-2xl font-bold tracking-tight text-slate-950">
+              <a href="/docs/initiatives/anavaratha" class="hover:text-emerald-800 underline underline-offset-4">
+                Anavaratha (අනවරත)
+              </a>
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Three linked domains: Freedom from Waste, Material Afterlives, and Ecological Flourishing. Desk-first research on Sri Lankan soil, water, and material continuity.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-200 text-xs font-mono font-bold">
+            <a href="/docs/initiatives/anavaratha" class="text-emerald-800 hover:underline">
+              Read Charter & Methodology →
+            </a>
+          </div>
+        </article>
+
+        <article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-950 font-mono text-xs font-bold">
+              Civic Infrastructure & Epistemics
+            </span>
+            <h3 class="text-2xl font-bold tracking-tight text-slate-950">
+              <a href="/docs/initiatives/urumaya" class="hover:text-emerald-800 underline underline-offset-4">
+                Urumaya (උරුමය)
+              </a>
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Founder's strategic report: Living Civic Knowledge Hub, open civic API toolkit, and Devneevma pressure-aware maps for Sri Lankan youth and community builders.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-200 text-xs font-mono font-bold">
+            <a href="/docs/initiatives/urumaya" class="text-emerald-800 hover:underline">
+              Read Strategic Report & Dossier →
+            </a>
+          </div>
+        </article>
+
+        <article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-950 font-mono text-xs font-bold">
+              SME Modernization & Operations
+            </span>
+            <h3 class="text-2xl font-bold tracking-tight text-slate-950">
+              <a href="/docs/initiatives/sme-systems" class="hover:text-slate-950 underline underline-offset-4">
+                SME Systems (Digital Mudalali)
+              </a>
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Designing systems that breathe: Complexity belongs in the engine, dignity belongs at the surface. Designing for the person in Piliyandala, Moratuwa, and Kandy.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-200 text-xs font-mono font-bold">
+            <a href="/docs/initiatives/sme-systems" class="text-slate-950 hover:underline">
+              Read Vision & Architecture Philosophy →
+            </a>
+          </div>
+        </article>
+
+        <article class="p-6 rounded-2xl border-2 border-slate-900 bg-white space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-950 font-mono text-xs font-bold">
+              Cognitive & Somatic Sanctuary
+            </span>
+            <h3 class="text-2xl font-bold tracking-tight text-slate-950">
+              <a href="/docs/initiatives/divergent-club" class="hover:text-slate-950 underline underline-offset-4">
+                Divergent Club
+              </a>
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Inheriting the Cocoon lineage: A non-performative container and sanctuary for neurodivergent and non-linear minds to regulate and explore ideas without masking.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-200 text-xs font-mono font-bold">
+            <a href="/docs/initiatives/divergent-club" class="text-slate-950 hover:underline">
+              Read Sanctuary Charter & Manifesto →
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</DocsLayout>
