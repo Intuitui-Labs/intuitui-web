@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import { publicProjects } from '../../lib/projects';
 import ProvenanceColophon from '../../components/ProvenanceColophon.astro';
+import { absoluteUrl } from '../../lib/site';
 
 export function getStaticPaths() {
 	return publicProjects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
@@ -145,7 +146,7 @@ const pillarLabel = {
 			publishDate="2026-08-29T17:53:12+05:30"
 			updatedDate="2026-10-11T18:00:00+05:30"
 			cadence="living-document"
-			canonicalUrl={`https://intuituilabs.studio/projects/${project.slug}`}
+			canonicalUrl={absoluteUrl(`/projects/${project.slug}/`)}
 			version="v2.0"
 			class="pt-8"
 		/>

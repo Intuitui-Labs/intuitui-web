@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SystemLifecycle from '../components/SystemLifecycle.astro';
 import ProvenanceColophon from '../components/ProvenanceColophon.astro';
+import { absoluteUrl } from '../lib/site';
 ---
 
 <MainLayout title="About | Intuitui Labs" theme="about" publishedDate="2026-08-24T13:56:19+05:30" updatedDate="2026-08-29T17:53:12+05:30">
@@ -88,7 +89,7 @@ import ProvenanceColophon from '../components/ProvenanceColophon.astro';
 			publishDate="2026-08-24T13:56:19+05:30"
 			updatedDate="2026-08-29T17:53:12+05:30"
 			cadence="perennial"
-			canonicalUrl="https://intuituilabs.edlove.org/about"
+			canonicalUrl={absoluteUrl('/about/')}
 			version="v1.2"
 			class="pt-8"
 		/>

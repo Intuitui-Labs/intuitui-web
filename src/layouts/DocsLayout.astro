@@ -2,7 +2,7 @@
 import MainLayout from './MainLayout.astro';
 import ProvenanceColophon from '../components/ProvenanceColophon.astro';
 import { getDocSections, type DocItem } from '../lib/docs';
-import { PUBLIC_URLS } from '../lib/site';
+import { PUBLIC_URLS, absoluteUrl } from '../lib/site';
 
 interface Props {
   currentDoc?: DocItem;
@@ -170,7 +170,7 @@ const currentSlug = currentDoc?.slug || '';
           publishDate={currentDoc?.frontmatter?.created || "2026-10-11"}
           updatedDate={currentDoc?.frontmatter?.updated || "2026-10-11"}
           cadence="living-document"
-          canonicalUrl={`https://intuituilabs.studio/docs/${currentSlug}`}
+          canonicalUrl={absoluteUrl(`/docs/${currentSlug}/`)}
           version={currentDoc?.frontmatter?.version || "v1.0"}
           class="pt-12 border-t border-brand-border"
         />

@@ -29,7 +29,7 @@ export const PUBLIC_URLS = {
   edlove: 'https://edlove.org',
 
   // Personal Archive
-  neevsk: 'https://neevsk.edlove.org',
+  neevsk: 'https://neevsk.intuituilabs.studio',
   neevskLinkedIn: 'https://www.linkedin.com/in/neevsk',
 
   // Intuitui Labs Platforms

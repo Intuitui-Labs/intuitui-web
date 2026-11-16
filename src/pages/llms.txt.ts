@@ -10,9 +10,9 @@ export function GET() {
 
 ## Priority Sections
 - Home: ${SITE_URL}/
-- About: ${SITE_URL}/about
-- Projects: ${SITE_URL}/projects
-- Studio: ${SITE_URL}/studio
+- About: ${SITE_URL}/about/
+- Projects: ${SITE_URL}/projects/
+- Studio: ${SITE_URL}/studio/
 
 ## Machine-Readable Endpoints
 - Sitemap: ${SITE_URL}/sitemap-index.xml
