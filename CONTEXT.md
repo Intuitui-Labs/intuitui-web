@@ -2,7 +2,7 @@
 
 ## IDENTITY
 **Name**: Intuitui Labs  
-**URL**: `intuitui.edlove.org` (eventually `intuituilabs.lk`)  
+**URL**: `intuituilabs.studio` (canonical; `intuituilabs.edlove.org` 308-redirects here)  
 **Role**: Systems Intelligence Studio / Professional Practice
 
 ## CORE CONCEPT

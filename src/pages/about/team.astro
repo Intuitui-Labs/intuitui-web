@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { publicTeam } from '../../lib/team';
 import ProfileIcon from '../../components/ProfileIcon.astro';
 import ProvenanceColophon from '../../components/ProvenanceColophon.astro';
+import { absoluteUrl } from '../../lib/site';
 ---
 
 <MainLayout title="Our Team | Intuitui Labs" theme="about" publishedDate="2026-08-29T17:53:12+05:30" updatedDate="2026-08-29T17:53:12+05:30">
@@ -118,7 +119,7 @@ import ProvenanceColophon from '../../components/ProvenanceColophon.astro';
 			publishDate="2026-08-29T17:53:12+05:30"
 			updatedDate="2026-08-29T17:53:12+05:30"
 			cadence="living-document"
-			canonicalUrl="https://intuituilabs.edlove.org/about/team"
+			canonicalUrl={absoluteUrl('/about/team/')}
 			version="v1.0"
 			class="pt-8"
 		/>
